@@ -14,6 +14,7 @@ if __name__ == '__main__':
 
     # Rozpakuj typ wydarzenia (np. strzały, podania)
     df['type_name'] = df['type'].apply(lambda x: x['name'] if isinstance(x, dict) else None)
+    df['team_name'] = df['team'].apply(lambda x: x['name'] if isinstance(x, dict) else None)
 
     # Filtrowanie wydarzeń do strzałów
     shots = df[df['type_name'] == 'Shot']
@@ -25,7 +26,17 @@ if __name__ == '__main__':
     # Dodanie strzałów do wizualizacji
     for _, shot in shots.iterrows():
         x, y = shot['location']  # Lokalizacja strzału
-        pitch.scatter(x, y, alpha=0.7, s=100, color='red', ax=ax)
+        team = shot['team_name']  # Nazwa drużyny
+        color = 'blue' if team == 'Barcelona' else 'red'  # Wybór koloru
+        # if team != 'Barcelona':
+        pitch.scatter(x, y, alpha=0.7, s=100, color=color, ax=ax)
+
+    # Dodanie legendy
+    legend_elements = [
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='blue', markersize=10, label='Barcelona'),
+        plt.Line2D([0], [0], marker='o', color='w', markerfacecolor='red', markersize=10, label='Deportivo Alavés')
+    ]
+    ax.legend(handles=legend_elements, loc='upper right', fontsize=10, frameon=True)
 
     # Wyświetlenie wizualizacji
     ax.set_title('Lokalizacje Strzałów', fontsize=14)

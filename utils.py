@@ -1,5 +1,3 @@
-import os
-
 import matplotlib.pyplot as plt
 import json
 import pandas as pd
@@ -82,16 +80,19 @@ def print_competition(competition_id, season_id):
     with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
 
+    pd.set_option('display.width', 1000)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
     df = pd.DataFrame(data)
     team_id = 904
+    team_name = 'Bayer Leverkusen'
     df['home_team_name'] = df['home_team'].apply(lambda x: x['home_team_name'] if isinstance(x, dict) else None)
     df['home_team_id'] = df['home_team'].apply(lambda x: x['home_team_id'] if isinstance(x, dict) else None)
     df['away_team_name'] = df['away_team'].apply(lambda x: x['away_team_name'] if isinstance(x, dict) else None)
     df['away_team_id'] = df['away_team'].apply(lambda x: x['away_team_id'] if isinstance(x, dict) else None)
     df['score'] = df.apply(lambda row: f"{row['home_score']}:{row['away_score']}", axis=1)
+    df = df.sort_values(by='match_date', ascending=True)
 
     def calculate_points(row):
         home_score = row['home_score']
@@ -108,7 +109,32 @@ def print_competition(competition_id, season_id):
 
     df['points'] = df.apply(calculate_points, axis=1)
 
-    df = df[['match_id', 'home_team_name', 'away_team_name', 'score', 'points']]
+    goals_scored = df[df['home_team_id'] == team_id]['home_score'].sum() + df[df['away_team_id'] == team_id][
+        'away_score'].sum()
+    goals_against = df[df['home_team_id'] != team_id]['home_score'].sum() + df[df['away_team_id'] != team_id][
+        'away_score'].sum()
+    wins = (df['points'] == 3).sum()
+    draws = (df['points'] == 1).sum()
+    loses = (df['points'] == 0).sum()
+    form = list(map(lambda x: {3: 'Win', 1: 'Draw', 0: 'Loss'}[x], df.tail(5)['points'].tolist()))
+
+    df = df[['match_id', 'match_date', 'home_team_name', 'away_team_name', 'score', 'points']]
 
     print(df)
-    print("Ilość punktów Bayer Leverkusen: ", df['points'].sum())
+
+    team_data = {
+        'team_id': team_id,
+        'team_name': team_name,
+        'matches_played': len(df),
+        'wins': wins,
+        'draws': draws,
+        'loses': loses,
+        'goals_scored': goals_scored,
+        'goals_against': goals_against,
+        'goals_difference': goals_scored - goals_against,
+        'points': df['points'].sum(),
+        'form': form
+    }
+    team_df = pd.DataFrame([team_data])
+
+    print(team_df)

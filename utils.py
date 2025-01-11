@@ -1,3 +1,5 @@
+import os
+
 import matplotlib.pyplot as plt
 import json
 import pandas as pd
@@ -70,7 +72,43 @@ def print_competitions():
 
     df = pd.DataFrame(data)
     df = df[df['competition_gender'] == 'male']
-    df = df[['competition_id', 'competition_name', 'season_name']]
+    df = df[['competition_id', 'competition_name', 'season_name', 'season_id']]
     df = df.sort_values(by='season_name', ascending=False)
 
     print(df)
+
+
+def print_competition(competition_id, season_id):
+    with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
+
+    df = pd.DataFrame(data)
+    team_id = 904
+    df['home_team_name'] = df['home_team'].apply(lambda x: x['home_team_name'] if isinstance(x, dict) else None)
+    df['home_team_id'] = df['home_team'].apply(lambda x: x['home_team_id'] if isinstance(x, dict) else None)
+    df['away_team_name'] = df['away_team'].apply(lambda x: x['away_team_name'] if isinstance(x, dict) else None)
+    df['away_team_id'] = df['away_team'].apply(lambda x: x['away_team_id'] if isinstance(x, dict) else None)
+    df['score'] = df.apply(lambda row: f"{row['home_score']}:{row['away_score']}", axis=1)
+
+    def calculate_points(row):
+        home_score = row['home_score']
+        away_score = row['away_score']
+        home_team_id = row['home_team_id']
+        away_team_id = row['away_team_id']
+        if home_score == away_score:
+            return 1
+        elif (home_team_id == team_id and home_score > away_score) or (
+                away_team_id == team_id and away_score > home_score):
+            return 3
+        else:
+            return 0
+
+    df['points'] = df.apply(calculate_points, axis=1)
+
+    df = df[['match_id', 'home_team_name', 'away_team_name', 'score', 'points']]
+
+    print(df)
+    print("Ilość punktów Bayer Leverkusen: ", df['points'].sum())

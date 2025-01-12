@@ -77,22 +77,24 @@ def print_competitions():
 
 
 def print_competition(competition_id, season_id):
-    with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
-        data = json.load(file)
-
     pd.set_option('display.width', 1000)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
-    df = pd.DataFrame(data)
+    with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
     team_id = 904
-    team_name = 'Bayer Leverkusen'
+
+    df = pd.DataFrame(data)
     df['home_team_name'] = df['home_team'].apply(lambda x: x['home_team_name'] if isinstance(x, dict) else None)
     df['home_team_id'] = df['home_team'].apply(lambda x: x['home_team_id'] if isinstance(x, dict) else None)
     df['away_team_name'] = df['away_team'].apply(lambda x: x['away_team_name'] if isinstance(x, dict) else None)
     df['away_team_id'] = df['away_team'].apply(lambda x: x['away_team_id'] if isinstance(x, dict) else None)
     df['score'] = df.apply(lambda row: f"{row['home_score']}:{row['away_score']}", axis=1)
     df = df.sort_values(by='match_date', ascending=True)
+    team_name = df.loc[df['home_team_id'] == team_id, 'home_team_name'].iloc[0]
+    team_name = df[df['home_team_id'] == team_id]['home_team_name'][0]
 
     def calculate_points(row):
         home_score = row['home_score']

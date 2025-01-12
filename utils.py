@@ -81,6 +81,9 @@ def print_competition(competition_id, season_id):
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
+    competition = competition_df(9, 281)
+    print("competition:\n", competition)
+
     with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
 
@@ -140,3 +143,12 @@ def print_competition(competition_id, season_id):
     team_df = pd.DataFrame([team_data])
 
     print(team_df)
+
+
+def competition_df(competition_id, season_id):
+    with open('../open-data/data/competitions.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    df = pd.DataFrame(data)
+    return df[(df['competition_id'] == competition_id) & (df['season_id'] == season_id)][
+        ['country_name', 'competition_name', 'season_name', 'match_available', 'match_available_360']
+    ]

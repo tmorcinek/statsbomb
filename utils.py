@@ -60,13 +60,21 @@ def print_events(events_json):
     event_counts = df['type_name'].value_counts()
     print("\nLiczba każdego typu wydarzenia:\n", event_counts)
 
+def print_match(match_id):
+    with open(f'../open-data/data/events/{match_id}.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    df = pd.DataFrame(data)
+
+    df['type_name'] = df['type'].apply(lambda x: x['name'] if isinstance(x, dict) else None)
+
+    event_counts = df['type_name'].value_counts()
+    print("\nLiczba każdego typu wydarzenia:\n", event_counts)
+
 
 def print_competitions():
     with open('../open-data/data/competitions.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
-
-    pd.set_option('display.max_rows', None)
-    pd.set_option('display.max_columns', None)
 
     df = pd.DataFrame(data)
     df = df[df['competition_gender'] == 'male']
@@ -77,11 +85,29 @@ def print_competitions():
 
 
 def print_competition(competition_id, season_id):
-    pd.set_option('display.width', 1000)
-    pd.set_option('display.max_rows', None)
-    pd.set_option('display.max_columns', None)
+    competition = competition_df(competition_id, season_id)
+    print("competition:\n", competition)
 
-    competition = competition_df(9, 281)
+    with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)
+
+    df = pd.DataFrame(data)
+    df['home_team_name'] = df['home_team'].apply(lambda x: x['home_team_name'] if isinstance(x, dict) else None)
+    df['home_team_id'] = df['home_team'].apply(lambda x: x['home_team_id'] if isinstance(x, dict) else None)
+    df['away_team_name'] = df['away_team'].apply(lambda x: x['away_team_name'] if isinstance(x, dict) else None)
+    df['away_team_id'] = df['away_team'].apply(lambda x: x['away_team_id'] if isinstance(x, dict) else None)
+    df['score'] = df.apply(lambda row: f"{row['home_score']}:{row['away_score']}", axis=1)
+    df = df.sort_values(by='match_date', ascending=True)
+
+    df = df[['match_id', 'match_date', 'home_team_name', 'away_team_name', 'score']]
+
+    print(df)
+
+
+def print_competition_bayer():
+    competition_id = 9
+    season_id = 281
+    competition = competition_df(competition_id, season_id)
     print("competition:\n", competition)
 
     with open(f'../open-data/data/matches/{competition_id}/{season_id}.json', 'r', encoding='utf-8') as file:
@@ -140,15 +166,16 @@ def print_competition(competition_id, season_id):
         'points': df['points'].sum(),
         'form': form
     }
-    team_df = pd.DataFrame([team_data])
-
-    print(team_df)
+    print(pd.DataFrame([team_data]))
 
 
 def competition_df(competition_id, season_id):
     with open('../open-data/data/competitions.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
     df = pd.DataFrame(data)
+    df['is_match_available'] = df['match_available'].notna()
+    df['is_match_available_360'] = df['match_available_360'].notna()
     return df[(df['competition_id'] == competition_id) & (df['season_id'] == season_id)][
-        ['country_name', 'competition_name', 'season_name', 'match_available', 'match_available_360']
+        ['competition_id', 'season_id', 'country_name', 'competition_name', 'season_name', 'is_match_available',
+         'is_match_available_360']
     ]

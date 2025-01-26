@@ -102,6 +102,7 @@ def print_competition(competition_id, season_id):
     df = df[['match_id', 'match_date', 'home_team_name', 'away_team_name', 'score']]
 
     print(df)
+    print(f"Number of games: {df.shape[0]}")
 
 
 def print_competition_bayer():

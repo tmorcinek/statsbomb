@@ -1,0 +1,256 @@
+[
+  {
+    "dateTime": "24/02/2025 - 19:00",
+    "matchName": "Motor Lublin vs GKS Katowice",
+    "home_team": {
+      "team_name": "Motor Lublin",
+      "score": 3,
+      "formation": "4-3-3",
+      "manager": "Unknown",
+    },
+    "away_team": {
+      "team_name": "GKS Katowice",
+      "score": 2,
+      "formation": "3-4-2-1",
+      "manager": "Unknown"
+    },
+    "events": [
+      {
+        "minute": 8,
+        "eventName": "goal",
+        "primary_player": "S. Bergier",
+        "secondary_player": "M. Wasielewski",
+        "note": null,
+        "team": "away_team"
+      },
+      {
+        "minute": 15,
+        "eventName": "goal",
+        "primary_player": "P. Ceglarz",
+        "secondary_player": null,
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 18,
+        "eventName": "yellow_card",
+        "primary_player": "M. Kuusk",
+        "secondary_player": null,
+        "note": "Foul",
+        "team": "away_team"
+      },
+      {
+        "minute": 21,
+        "eventName": "goal",
+        "primary_player": "B. v. Hoeven",
+        "secondary_player": null,
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 28,
+        "eventName": "yellow_card",
+        "primary_player": "B. v. Hoeven",
+        "secondary_player": null,
+        "note": "Simulation",
+        "team": "home_team"
+      },
+      {
+        "minute": 51,
+        "eventName": "goal",
+        "primary_player": "B. Galán",
+        "secondary_player": "M. Kowalczyk",
+        "note": null,
+        "team": "away_team"
+      },
+      {
+        "minute": 56,
+        "eventName": "goal",
+        "primary_player": "F. Szymczak",
+        "secondary_player": "A. Błąd",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 57,
+        "eventName": "goal",
+        "primary_player": "S. Mráz",
+        "secondary_player": "F. Wojcik",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 59,
+        "eventName": "substitution",
+        "primary_player": "K. Wełniak",
+        "secondary_player": "S. Mráz",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 59,
+        "eventName": "substitution",
+        "primary_player": "A. Sefer",
+        "secondary_player": "J. Łabojko",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 73,
+        "eventName": "yellow_card",
+        "primary_player": "F. Wojcik",
+        "secondary_player": null,
+        "note": "Time wasting",
+        "team": "home_team"
+      },
+      {
+        "minute": 75,
+        "eventName": "substitution",
+        "primary_player": "L. Klemenz",
+        "secondary_player": "M. Kuusk",
+        "note": null,
+        "team": "away_team"
+      },
+      {
+        "minute": 75,
+        "eventName": "substitution",
+        "primary_player": "D. Drachal",
+        "secondary_player": "S. Bergier",
+        "note": null,
+        "team": "away_team"
+      },
+      {
+        "minute": 76,
+        "eventName": "substitution",
+        "primary_player": "P. Stolarski",
+        "secondary_player": "F. Wojcik",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 76,
+        "eventName": "substitution",
+        "primary_player": "M. Król",
+        "secondary_player": "B. v. Hoeven",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 76,
+        "eventName": "substitution",
+        "primary_player": "K. Gruszkowski",
+        "secondary_player": "M. Wasielewski",
+        "note": null,
+        "team": "away_team"
+      },
+      {
+        "minute": 80,
+        "eventName": "yellow_card",
+        "primary_player": "P. Stolarski",
+        "secondary_player": null,
+        "note": "Foul",
+        "team": "home_team"
+      },
+      {
+        "minute": 87,
+        "eventName": "substitution",
+        "primary_player": "K. Caliskaner",
+        "secondary_player": "B. Wolski",
+        "note": null,
+        "team": "home_team"
+      },
+      {
+        "minute": 87,
+        "eventName": "substitution",
+        "primary_player": "M. Mak",
+        "secondary_player": "B. Nowak",
+        "note": null,
+        "team": "away_team"
+      },
+      {
+        "minute": 88,
+        "eventName": "yellow_card",
+        "primary_player": "B. Galán",
+        "secondary_player": null,
+        "note": "Foul",
+        "team": "away_team"
+      },
+      {
+        "minute": 90,
+        "eventName": "yellow_card",
+        "primary_player": "F. Szymczak",
+        "secondary_player": null,
+        "note": "Argument",
+        "team": "home_team"
+      }
+    ],
+    "lineup": [
+      {
+        "player_name": "D. Kudła",
+        "number": 1,
+        "position": "Goalkeeper",
+        "score": 6.6
+      },
+      {
+        "player_name": "M. Kuusk",
+        "number": 2,
+        "position": "Left Center Back",
+        "score": 6.2
+      },
+      {
+        "player_name": "A. Jędrych",
+        "number": 4,
+        "position": "Central Center Back",
+        "score": 6.3
+      },
+      {
+        "player_name": "A. Czerwiński",
+        "number": 30,
+        "position": "Right Center Back",
+        "score": 7.6
+      },
+      {
+        "player_name": "B. Galán",
+        "number": 8,
+        "position": "Left Midfielder",
+        "score": 8.0
+      },
+      {
+        "player_name": "M. Kowalczyk",
+        "number": 77,
+        "position": "Central Midfielder",
+        "score": 6.6
+      },
+      {
+        "player_name": "O. Repka",
+        "number": 5,
+        "position": "Central Midfielder",
+        "score": 7.1
+      },
+      {
+        "player_name": "M. Wasielewski",
+        "number": 23,
+        "position": "Right Midfielder",
+        "score": 7.5
+      },
+      {
+        "player_name": "B. Nowak",
+        "number": 27,
+        "position": "Left Attacking Midfielder",
+        "score": 7.7
+      },
+      {
+        "player_name": "A. Błąd",
+        "number": 11,
+        "position": "Right Attacking Midfielder",
+        "score": 7.5
+      },
+      {
+        "player_name": "S. Bergier",
+        "number": 7,
+        "position": "Center Forward",
+        "score": 6.1
+      }
+    ]
+  }
+]

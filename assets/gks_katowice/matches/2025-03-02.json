@@ -1,0 +1,270 @@
+{
+  "dateTime": "02/03/2025 - 17:30",
+  "matchName": "Jagiellonia Białystok vs GKS Katowice",
+  "home_team": {
+    "team_name": "Jagiellonia Białystok",
+    "score": 1,
+    "formation": "4-2-3-1",
+    "manager": "",
+    "team_stats": {
+      "possession": 54,
+      "expected_goals_xg": 1.11,
+      "big_chances": 1,
+      "big_chances_scored": 1,
+      "big_chances_missed": 0,
+      "total_shots": 18,
+      "shots_on_target": 3,
+      "shots_off_target": 5,
+      "blocked_shots": 10,
+      "shots_inside_box": 15,
+      "shots_outside_box": 3,
+      "goalkeeper_saves": 1,
+      "big_saves": 1,
+      "corner_kicks": 4,
+      "fouls": 13,
+      "free_kicks": 12,
+      "offsides": 2,
+      "passes": 475,
+      "accurate_passes": 396,
+      "throw_ins": 11,
+      "final_third_entries": 46,
+      "final_third_phase_accuracy": 74,
+      "long_balls": 40,
+      "accurate_long_balls": 18,
+      "crosses": 40,
+      "accurate_crosses": 18,
+      "duels_won": 51,
+      "ground_duels": 58,
+      "ground_duels_won": 29,
+      "aerial_duels": 28,
+      "aerial_duels_won": 15,
+      "dribbles": 8,
+      "successful_dribbles": 6,
+      "dispossessed": 4,
+      "tackles": 10,
+      "tackles_won": 80,
+      "interceptions": 18,
+      "recoveries": 53,
+      "clearances": 25,
+      "goalkeeper_saves_total": 1,
+      "high_claims": 1,
+      "goal_kicks": 7
+    }
+  },
+  "away_team": {
+    "team_name": "GKS Katowice",
+    "score": 0,
+    "formation": "3-4-3",
+    "manager": "",
+    "lineup": [
+      {
+        "player_name": "D. Kudła",
+        "number": 1,
+        "position": "Goalkeeper",
+        "score": 6.9
+      },
+      {
+        "player_name": "M. Kuusk",
+        "number": 2,
+        "position": "Left Center Back",
+        "score": 7.2
+      },
+      {
+        "player_name": "A. Jędrych",
+        "number": 4,
+        "position": "Center Back",
+        "score": 7.5
+      },
+      {
+        "player_name": "A. Czerwiński",
+        "number": 30,
+        "position": "Right Center Back",
+        "score": 7.2
+      },
+      {
+        "player_name": "B. Galán",
+        "number": 8,
+        "position": "Left Midfielder",
+        "score": 7.3
+      },
+      {
+        "player_name": "M. Kowalczyk",
+        "number": 77,
+        "position": "Left Central Midfielder",
+        "score": 7.2
+      },
+      {
+        "player_name": "O. Repka",
+        "number": 5,
+        "position": "Right Central Midfielder",
+        "score": 6.7
+      },
+      {
+        "player_name": "M. Wasielewski",
+        "number": 23,
+        "position": "Right Midfielder",
+        "score": 6.9
+      },
+      {
+        "player_name": "A. Błąd",
+        "number": 11,
+        "position": "Right Forward",
+        "score": 7.1
+      },
+      {
+        "player_name": "S. Bergier",
+        "number": 7,
+        "position": "Center Forward",
+        "score": 6.7
+      },
+      {
+        "player_name": "B. Nowak",
+        "number": 27,
+        "position": "Left Forward",
+        "score": 6.7
+      }
+    ],
+    "team_stats": {
+      "possession": 46,
+      "expected_goals_xg": 0.45,
+      "big_chances": 1,
+      "big_chances_scored": 0,
+      "big_chances_missed": 1,
+      "total_shots": 11,
+      "shots_on_target": 1,
+      "shots_off_target": 5,
+      "blocked_shots": 5,
+      "shots_inside_box": 6,
+      "shots_outside_box": 5,
+      "goalkeeper_saves": 2,
+      "big_saves": 0,
+      "corner_kicks": 0,
+      "fouls": 12,
+      "free_kicks": 13,
+      "offsides": 2,
+      "passes": 397,
+      "accurate_passes": 317,
+      "throw_ins": 25,
+      "final_third_entries": 39,
+      "final_third_phase_accuracy": 65,
+      "long_balls": 46,
+      "accurate_long_balls": 25,
+      "crosses": 21,
+      "accurate_crosses": 4,
+      "duels_won": 49,
+      "ground_duels": 58,
+      "ground_duels_won": 29,
+      "aerial_duels": 28,
+      "aerial_duels_won": 13,
+      "dribbles": 15,
+      "successful_dribbles": 8,
+      "dispossessed": 8,
+      "tackles": 11,
+      "tackles_won": 91,
+      "interceptions": 15,
+      "recoveries": 44,
+      "clearances": 25,
+      "goalkeeper_saves_total": 2,
+      "high_claims": 0,
+      "goal_kicks": 7
+    }
+  },
+  "events": [
+    {
+      "minute": 36,
+      "eventName": "goal",
+      "primary_player": "T. Romanczuk",
+      "secondary_player": "",
+      "note": "",
+      "team": "home_team"
+    },
+    {
+      "minute": 47,
+      "eventName": "yellow_card",
+      "primary_player": "O. Repka",
+      "secondary_player": "",
+      "note": "Foul",
+      "team": "away_team"
+    },
+    {
+      "minute": 46,
+      "eventName": "substitution",
+      "primary_player": "F. Szymczak",
+      "secondary_player": "S. Bergier",
+      "note": "",
+      "team": "away_team"
+    },
+    {
+      "minute": 46,
+      "eventName": "substitution",
+      "primary_player": "D. Drachal",
+      "secondary_player": "M. Kowalczyk",
+      "note": "",
+      "team": "away_team"
+    },
+    {
+      "minute": 46,
+      "eventName": "substitution",
+      "primary_player": "L. Klemenz",
+      "secondary_player": "M. Kuusk",
+      "note": "",
+      "team": "away_team"
+    },
+    {
+      "minute": 64,
+      "eventName": "substitution",
+      "primary_player": "L. Flach",
+      "secondary_player": "T. Romanczuk",
+      "note": "",
+      "team": "home_team"
+    },
+    {
+      "minute": 64,
+      "eventName": "substitution",
+      "primary_player": "D. Churlinov",
+      "secondary_player": "O. Pietuszewski",
+      "note": "",
+      "team": "home_team"
+    },
+    {
+      "minute": 71,
+      "eventName": "substitution",
+      "primary_player": "Tomás",
+      "secondary_player": "J. Kubicki",
+      "note": "",
+      "team": "home_team"
+    },
+    {
+      "minute": 71,
+      "eventName": "substitution",
+      "primary_player": "K. Gruszkowski",
+      "secondary_player": "M. Wasielewski",
+      "note": "",
+      "team": "away_team"
+    },
+    {
+      "minute": 71,
+      "eventName": "substitution",
+      "primary_player": "L. Diaby-Fadiga",
+      "secondary_player": "A. Pululu",
+      "note": "",
+      "team": "away_team"
+    },
+    {
+      "minute": 82,
+      "eventName": "substitution",
+      "primary_player": "M. Marzec",
+      "secondary_player": "A. Błąd",
+      "note": "",
+      "team": "away_team"
+    },
+    {
+      "minute": 86,
+      "eventName": "substitution",
+      "primary_player": "A. Rybak",
+      "secondary_player": "J. Imaz",
+      "note": "",
+      "team": "home_team"
+    }
+  ]
+}

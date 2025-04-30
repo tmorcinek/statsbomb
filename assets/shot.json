@@ -1,0 +1,577 @@
+[
+  {
+    "id": "705f5ae7-5d72-4676-96b7-6f88809c5577",
+    "index": 789,
+    "period": 1,
+    "timestamp": "00:21:16.016",
+    "minute": 21,
+    "second": 16,
+    "type": {
+      "id": 16,
+      "name": "Shot"
+    },
+    "possession": 33,
+    "possession_team": {
+      "id": 941,
+      "name": "Netherlands"
+    },
+    "play_pattern": {
+      "id": 6,
+      "name": "From Counter"
+    },
+    "team": {
+      "id": 941,
+      "name": "Netherlands"
+    },
+    "player": {
+      "id": 2988,
+      "name": "Memphis Depay"
+    },
+    "position": {
+      "id": 23,
+      "name": "Center Forward"
+    },
+    "location": [
+      104.8,
+      40.8
+    ],
+    "duration": 0.561947,
+    "related_events": [
+      "40738e90-7976-4439-b117-2c154ad838f8"
+    ],
+    "shot": {
+      "statsbomb_xg": 0.11201969,
+      "end_location": [
+        120.0,
+        42.6,
+        5.2
+      ],
+      "key_pass_id": "8b3801d0-ace9-4d1c-969c-a613d6db61f1",
+      "outcome": {
+        "id": 98,
+        "name": "Off T"
+      },
+      "first_time": true,
+      "technique": {
+        "id": 91,
+        "name": "Half Volley"
+      },
+      "body_part": {
+        "id": 40,
+        "name": "Right Foot"
+      },
+      "type": {
+        "id": 87,
+        "name": "Open Play"
+      },
+      "freeze_frame": [
+        {
+          "location": [
+            115.6,
+            40.6
+          ],
+          "player": {
+            "id": 5669,
+            "name": "Wojciech Szczęsny"
+          },
+          "position": {
+            "id": 1,
+            "name": "Goalkeeper"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            90.2,
+            41.2
+          ],
+          "player": {
+            "id": 5660,
+            "name": "Piotr Zieliński"
+          },
+          "position": {
+            "id": 15,
+            "name": "Left Center Midfield"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            84.8,
+            18.7
+          ],
+          "player": {
+            "id": 7979,
+            "name": "Przemysław Frankowski"
+          },
+          "position": {
+            "id": 7,
+            "name": "Right Wing Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            101.7,
+            42.3
+          ],
+          "player": {
+            "id": 7982,
+            "name": "Taras Wiktorowicz Romanczuk"
+          },
+          "position": {
+            "id": 10,
+            "name": "Center Defensive Midfield"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            105.5,
+            43.6
+          ],
+          "player": {
+            "id": 44166,
+            "name": "Jakub Piotr Kiwior"
+          },
+          "position": {
+            "id": 5,
+            "name": "Left Center Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            106.7,
+            44.4
+          ],
+          "player": {
+            "id": 8289,
+            "name": "Bartosz Salamon"
+          },
+          "position": {
+            "id": 4,
+            "name": "Center Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            106.9,
+            39.5
+          ],
+          "player": {
+            "id": 4626,
+            "name": "Jan Bednarek"
+          },
+          "position": {
+            "id": 3,
+            "name": "Right Center Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            91.2,
+            39.5
+          ],
+          "player": {
+            "id": 21582,
+            "name": "Tijjani Reijnders"
+          },
+          "position": {
+            "id": 19,
+            "name": "Center Attacking Midfield"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            104.2,
+            43.7
+          ],
+          "player": {
+            "id": 39167,
+            "name": "Xavi Simons"
+          },
+          "position": {
+            "id": 17,
+            "name": "Right Wing"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            95.0,
+            22.3
+          ],
+          "player": {
+            "id": 20750,
+            "name": "Cody Mathès Gakpo"
+          },
+          "position": {
+            "id": 21,
+            "name": "Left Wing"
+          },
+          "teammate": true
+        }
+      ]
+    }
+  },
+  {
+    "id": "3c80a40d-70ad-47a7-84ac-4604515d01d9",
+    "index": 579,
+    "period": 1,
+    "timestamp": "00:15:50.430",
+    "minute": 15,
+    "second": 50,
+    "type": {
+      "id": 16,
+      "name": "Shot"
+    },
+    "possession": 25,
+    "possession_team": {
+      "id": 789,
+      "name": "Poland"
+    },
+    "play_pattern": {
+      "id": 2,
+      "name": "From Corner"
+    },
+    "team": {
+      "id": 789,
+      "name": "Poland"
+    },
+    "player": {
+      "id": 7663,
+      "name": "Adam Buksa"
+    },
+    "position": {
+      "id": 22,
+      "name": "Right Center Forward"
+    },
+    "location": [
+      114.6,
+      33.6
+    ],
+    "duration": 0.691385,
+    "under_pressure": true,
+    "related_events": [
+      "4f66cc2f-4ab3-4e7e-afdb-668ecf5530be",
+      "74b1e3bb-eff0-4a60-80c3-5e14ab0a0bb7"
+    ],
+    "shot": {
+      "statsbomb_xg": 0.08721661,
+      "end_location": [
+        120.0,
+        42.6,
+        0.7
+      ],
+      "key_pass_id": "9a034727-be69-45db-9057-da1767584734",
+      "type": {
+        "id": 87,
+        "name": "Open Play"
+      },
+      "outcome": {
+        "id": 97,
+        "name": "Goal"
+      },
+      "technique": {
+        "id": 93,
+        "name": "Normal"
+      },
+      "aerial_won": true,
+      "body_part": {
+        "id": 37,
+        "name": "Head"
+      },
+      "freeze_frame": [
+        {
+          "location": [
+            113.7,
+            34.8
+          ],
+          "player": {
+            "id": 21633,
+            "name": "Joey Veerman"
+          },
+          "position": {
+            "id": 11,
+            "name": "Left Defensive Midfield"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            104.4,
+            30.4
+          ],
+          "player": {
+            "id": 39167,
+            "name": "Xavi Simons"
+          },
+          "position": {
+            "id": 17,
+            "name": "Right Wing"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            117.3,
+            34.8
+          ],
+          "player": {
+            "id": 20750,
+            "name": "Cody Mathès Gakpo"
+          },
+          "position": {
+            "id": 21,
+            "name": "Left Wing"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            115.6,
+            34.9
+          ],
+          "player": {
+            "id": 3669,
+            "name": "Virgil van Dijk"
+          },
+          "position": {
+            "id": 5,
+            "name": "Left Center Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            111.4,
+            38.0
+          ],
+          "player": {
+            "id": 2988,
+            "name": "Memphis Depay"
+          },
+          "position": {
+            "id": 23,
+            "name": "Center Forward"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            114.7,
+            38.7
+          ],
+          "player": {
+            "id": 7787,
+            "name": "Stefan de Vrij"
+          },
+          "position": {
+            "id": 3,
+            "name": "Right Center Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            114.3,
+            42.5
+          ],
+          "player": {
+            "id": 3306,
+            "name": "Nathan Aké"
+          },
+          "position": {
+            "id": 6,
+            "name": "Left Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            113.8,
+            43.5
+          ],
+          "player": {
+            "id": 15503,
+            "name": "Jerdy Schouten"
+          },
+          "position": {
+            "id": 9,
+            "name": "Right Defensive Midfield"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            119.3,
+            37.7
+          ],
+          "player": {
+            "id": 37274,
+            "name": "Bart Verbruggen"
+          },
+          "position": {
+            "id": 1,
+            "name": "Goalkeeper"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            114.9,
+            32.5
+          ],
+          "player": {
+            "id": 8125,
+            "name": "Denzel Dumfries"
+          },
+          "position": {
+            "id": 2,
+            "name": "Right Back"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            115.4,
+            30.8
+          ],
+          "player": {
+            "id": 21582,
+            "name": "Tijjani Reijnders"
+          },
+          "position": {
+            "id": 19,
+            "name": "Center Attacking Midfield"
+          },
+          "teammate": false
+        },
+        {
+          "location": [
+            115.1,
+            41.5
+          ],
+          "player": {
+            "id": 4664,
+            "name": "Sebastian Szymański"
+          },
+          "position": {
+            "id": 13,
+            "name": "Right Center Midfield"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            98.6,
+            30.7
+          ],
+          "player": {
+            "id": 33680,
+            "name": "Kacper Urbanski"
+          },
+          "position": {
+            "id": 24,
+            "name": "Left Center Forward"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            117.3,
+            6.1
+          ],
+          "player": {
+            "id": 5660,
+            "name": "Piotr Zieliński"
+          },
+          "position": {
+            "id": 15,
+            "name": "Left Center Midfield"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            115.2,
+            35.9
+          ],
+          "player": {
+            "id": 4626,
+            "name": "Jan Bednarek"
+          },
+          "position": {
+            "id": 3,
+            "name": "Right Center Back"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            113.1,
+            38.8
+          ],
+          "player": {
+            "id": 8289,
+            "name": "Bartosz Salamon"
+          },
+          "position": {
+            "id": 4,
+            "name": "Center Back"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            111.9,
+            41.7
+          ],
+          "player": {
+            "id": 7982,
+            "name": "Taras Wiktorowicz Romanczuk"
+          },
+          "position": {
+            "id": 10,
+            "name": "Center Defensive Midfield"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            114.0,
+            46.4
+          ],
+          "player": {
+            "id": 44166,
+            "name": "Jakub Piotr Kiwior"
+          },
+          "position": {
+            "id": 5,
+            "name": "Left Center Back"
+          },
+          "teammate": true
+        },
+        {
+          "location": [
+            100.2,
+            44.0
+          ],
+          "player": {
+            "id": 7979,
+            "name": "Przemysław Frankowski"
+          },
+          "position": {
+            "id": 7,
+            "name": "Right Wing Back"
+          },
+          "teammate": true
+        }
+      ]
+    }
+  }
+]

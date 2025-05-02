@@ -19,8 +19,9 @@ def unique_positions(match_id) -> set:
         for pos in players['starting_position'].explode()
     }
 
+
 def unique_positions_matches(competition_id: int, season_id: int) -> set:
-    matches  = sb.matches(competition_id, season_id)
+    matches = sb.matches(competition_id, season_id)
     positions = set()
     for match_id in matches['match_id'].to_list():
         positions.update(unique_positions(match_id))

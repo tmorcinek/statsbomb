@@ -169,13 +169,13 @@ if __name__ == '__main__':
     # print_competitions()
 
     # print_spanish_matches()
-    # matches = sb.matches(55, 282)
-    # print(matches)
+    matches = sb.matches(55, 282)
+    print(matches)
 
-    positions = ln.starting_lineups(3943043)
-    england_ = positions['England']
-    pt.display_starting_lineup(england_)
+    positions = ln.starting_lineups(3938637)
+    england_ = positions['Netherlands']
     print(england_)
+    pt.display_starting_lineup(england_)
     # print(len(positions))
 
     # ln_unique_positions = ln.unique_positions(3943043)

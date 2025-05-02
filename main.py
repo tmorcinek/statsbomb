@@ -167,15 +167,31 @@ if __name__ == '__main__':
 
     # display_shots()
     # print_competitions()
-
     # print_spanish_matches()
-    matches = sb.matches(55, 282)
-    print(matches)
+    # matches = sb.matches(55, 282)
+    # for _, match in matches.iterrows():
+    #     print(match)
+    #     match_id = match['match_id']
+    #     positions = ln.starting_lineups(match_id)
+    #     for key, value in positions.items():
+    #         pt.display_starting_lineup(key, value)
+    # # print(matches)
+    #
+    #
+    # turkey_match_id = 3942382
+    # dennmark_match_id = 3930171
+    # belgium_match_id = 3941019
+    # switzerland_match_id = 3940878
 
-    positions = ln.starting_lineups(3938637)
-    england_ = positions['Netherlands']
-    print(england_)
-    pt.display_starting_lineup(england_)
+
+    positions = ln.starting_lineups(3943043)
+    # print(positions)
+    pt.display_starting_lineups(positions)
+
+    # england_ = positions['Spain']
+    # print(england_)
+    # pt.display_starting_lineup('Netherlands', england_)
+
     # print(len(positions))
 
     # ln_unique_positions = ln.unique_positions(3943043)

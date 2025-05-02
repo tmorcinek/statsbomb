@@ -1,7 +1,8 @@
+from functools import partial
+
 import pandas as pd
 from matplotlib import pyplot as plt
-from mplsoccer import VerticalPitch, Pitch
-from functools import partial
+from mplsoccer import VerticalPitch
 
 
 def __get_position_coordinates(position_name):
@@ -45,23 +46,29 @@ def __get_position_coordinates(position_name):
     return positions.get(position_name, None)
 
 
-def __coordinates(position_name, mirror=False,  pitch_length=120, pitch_width=80):
+def __coordinates(position_name, mirror=False, pitch_length=120, pitch_width=80):
     print(f'__coordinates: {position_name} {mirror}')
     x, y = __get_position_coordinates(position_name)
     if mirror:
         return pitch_length - x, pitch_width - y
-    else :
+    else:
         return x, y
 
 
 def __scatter_lineup(ax, pitch, lineup, color, coordinates_func):
     for _, player in lineup.iterrows():
-        print(player['starting_position'])
         x, y = coordinates_func(player['starting_position'])
         display_name = player['player_nickname'] if pd.notnull(player['player_nickname']) else player['player_name']
 
         pitch.scatter(x, y, s=300, ax=ax, color=color)
         pitch.annotate(display_name, (x, y), ax=ax, ha='center', va='center', fontsize=8, color='black')
+
+
+def __index_color(index) -> str:
+    if index % 2 == 0:
+        return 'royalblue'
+    else:
+        return 'red'
 
 
 def display_starting_lineup(team_name, lineup):
@@ -80,11 +87,6 @@ def display_starting_lineup(team_name, lineup):
     plt.title(f'{team_name} Starting XI')
     plt.show()
 
-def __index_color(index) -> str:
-    if index % 2 == 0:
-        return 'royalblue'
-    else:
-        return 'red'
 
 def display_starting_lineups(lineups):
     pitch = VerticalPitch(pitch_type='statsbomb')
@@ -92,7 +94,6 @@ def display_starting_lineups(lineups):
 
     index = 0
     for key, value in lineups.items():
-        print(f'{key}: {value.shape[0]} players')
         partial_coordinates = partial(__coordinates, mirror=True if index == 0 else False)
         __scatter_lineup(ax, pitch, value, __index_color(index), partial_coordinates)
         index += 1

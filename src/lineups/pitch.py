@@ -2,10 +2,13 @@ from functools import partial
 
 import pandas as pd
 from matplotlib import pyplot as plt
+from matplotlib.patches import Patch
 from mplsoccer import VerticalPitch
 
+from .lineups import starting_lineups
 
-def __get_position_coordinates(position_name):
+
+def _get_position_coordinates(position_name):
     positions = {
         # Goalkeeper
         'Goalkeeper': (8, 40),
@@ -27,6 +30,7 @@ def __get_position_coordinates(position_name):
         # Midfield
         'Left Midfield': (40, 20),
         'Left Center Midfield': (40, 30),
+        'Center Midfield': (40, 40),
         'Right Center Midfield': (40, 50),
         'Right Midfield': (40, 60),
 
@@ -39,6 +43,7 @@ def __get_position_coordinates(position_name):
         'Left Wing': (55, 10),
         'Left Center Forward': (55, 30),
         'Center Forward': (55, 40),
+        'Secondary Striker': (50, 40), # Needs to be tested is available in (37,4)
         'Right Center Forward': (55, 50),
         'Right Wing': (55, 70)
     }
@@ -47,8 +52,7 @@ def __get_position_coordinates(position_name):
 
 
 def __coordinates(position_name, mirror=False, pitch_length=120, pitch_width=80):
-    print(f'__coordinates: {position_name} {mirror}')
-    x, y = __get_position_coordinates(position_name)
+    x, y = _get_position_coordinates(position_name)
     if mirror:
         return pitch_length - x, pitch_width - y
     else:
@@ -88,15 +92,21 @@ def display_starting_lineup(team_name, lineup):
     plt.show()
 
 
-def display_starting_lineups(lineups):
+def _display_starting_lineups(lineups, title):
     pitch = VerticalPitch(pitch_type='statsbomb')
     fig, ax = pitch.draw(figsize=(6, 8))
 
-    index = 0
+    legend_elements = []
     for key, value in lineups.items():
-        partial_coordinates = partial(__coordinates, mirror=True if index == 0 else False)
-        __scatter_lineup(ax, pitch, value, __index_color(index), partial_coordinates)
-        index += 1
+        index = len(legend_elements)
+        color = __index_color(index)
+        __scatter_lineup(ax, pitch, value, color, partial(__coordinates, mirror=True if index == 0 else False))
+        legend_elements += Patch(facecolor=color, edgecolor='black', label=key),
 
-    plt.title(f'Starting XI')
+    ax.legend(handles=legend_elements, loc='upper right', fontsize=10)
+    plt.title(title)
     plt.show()
+
+
+def display_starting_lineups(match_id, title="Starting XI's"):
+    _display_starting_lineups(starting_lineups(match_id), title)

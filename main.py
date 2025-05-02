@@ -5,8 +5,6 @@ from mplsoccer import VerticalPitch, Pitch
 import match as m
 import utils as utl
 from statsbombpy import sb
-import src.lineups as ln
-import src.pitch as pt
 
 
 def display_shots():
@@ -167,10 +165,15 @@ if __name__ == '__main__':
 
     # display_shots()
     # print_competitions()
+    competitions = sb.competitions()
+    for _, competition in competitions.iterrows():
+        print(f"{competition['competition_id']} - {competition['season_id']}")
     # print_spanish_matches()
     # matches = sb.matches(55, 282)
+    # print(matches)
     # for _, match in matches.iterrows():
     #     print(match)
+    #     pt.display_starting_lineups(match['match_id'])
     #     match_id = match['match_id']
     #     positions = ln.starting_lineups(match_id)
     #     for key, value in positions.items():
@@ -184,9 +187,7 @@ if __name__ == '__main__':
     # switzerland_match_id = 3940878
 
 
-    positions = ln.starting_lineups(3943043)
-    # print(positions)
-    pt.display_starting_lineups(positions)
+
 
     # england_ = positions['Spain']
     # print(england_)

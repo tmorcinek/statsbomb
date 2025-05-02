@@ -1,0 +1,12 @@
+[
+  {
+    "position_id": 1,
+    "position": "Goalkeeper",
+    "from": "00:00",
+    "to": null,
+    "from_period": 1,
+    "to_period": null,
+    "start_reason": "Starting XI",
+    "end_reason": "Final Whistle"
+  }
+]

@@ -6,6 +6,7 @@ import match as m
 import utils as utl
 from statsbombpy import sb
 import src.lineups as ln
+import src.pitch as pt
 
 
 def display_shots():
@@ -168,22 +169,19 @@ if __name__ == '__main__':
     # print_competitions()
 
     # print_spanish_matches()
-    matches = sb.matches(55, 282)
-    print(matches)
+    # matches = sb.matches(55, 282)
+    # print(matches)
 
     positions = ln.starting_lineups(3943043)
+    england_ = positions['England']
+    pt.display_starting_lineup(england_)
+    print(england_)
+    # print(len(positions))
 
     # ln_unique_positions = ln.unique_positions(3943043)
     # print(ln_unique_positions)
     # print(len(ln_unique_positions))
 
-    unique_positions = ln.unique_positions_matches(55, 282)
-    print(unique_positions)
-    print(len(unique_positions))
-
-    # print(players[players['position_name'] == 'Goalkeeper'])
-    # goalkeeper = players['positions'][13]
-    # print(goalkeeper[0]['position'])
 
     # display_players_formation(players)
 

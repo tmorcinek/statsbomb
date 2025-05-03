@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-from mplsoccer import VerticalPitch, Pitch
 
 import match as m
 import utils as utl
+import src.lineups.pitch as pt
+import src.lineups.lineups as ln
 from statsbombpy import sb
 
 
@@ -35,127 +36,14 @@ def print_spanish_matches():
     print(matches_spain)
 
 
-def display_players_formation(players):
-    # przykładowe rozmieszczenie pozycji (4-3-3)
-    formation_coords = [
-        (5, 5), (25, 5), (45, 5), (65, 5),  # obrońcy
-        (25, 30), (45, 30), (65, 30),  # pomocnicy
-        (15, 50), (35, 55), (55, 50)  # napastnicy
-    ]
-    players_outfield = players[players['position_name'] != 'Goalkeeper'].head(10)
-    gk = players[players['position_name'] == 'Goalkeeper'].head(1)
-    # przygotuj DataFrame z pozycjami
-    df = players_outfield.copy().reset_index(drop=True)
-    df['x'], df['y'] = zip(*formation_coords)
-    pitch = VerticalPitch(pitch_type='statsbomb', half=True, goal_type='box')
-    fig, ax = pitch.draw(figsize=(8, 6))
-    # zawodnicy z pola
-    pitch.scatter(df['x'], df['y'], s=500, color='royalblue', ax=ax)
-    for i, row in df.iterrows():
-        pitch.annotate(row['player_name'], (row['x'], row['y'] + 1), ax=ax,
-                       ha='center', va='bottom', fontsize=10, color='white')
-    # bramkarz
-    if not gk.empty:
-        pitch.scatter(35, 1, s=500, color='green', ax=ax)
-        pitch.annotate(gk.iloc[0]['player_name'], (35, 2), ax=ax,
-                       ha='center', va='bottom', fontsize=10, color='white')
-    plt.title(f"Spain Starting XI")
-    plt.show()
-
-
-def display_formation():
-    # Tworzenie boiska
-    pitch = Pitch(pitch_type='statsbomb', pitch_color='grass', line_color='white')
-    fig, ax = pitch.draw(figsize=(10, 7))
-    # Definicja pozycji dla formacji 4-3-3
-    positions = {
-        'Goalkeeper': (5, 40),
-        'Right Back': (20, 10),
-        'Right Center Back': (20, 30),
-        'Left Center Back': (20, 50),
-        'Left Back': (20, 70),
-        'Right Midfield': (50, 20),
-        'Center Midfield': (50, 40),
-        'Left Midfield': (50, 60),
-        'Right Wing': (80, 10),
-        'Center Forward': (80, 40),
-        'Left Wing': (80, 70)
-    }
-    # Rysowanie zawodników na boisku
-    for position, (x, y) in positions.items():
-        pitch.scatter(x, y, s=300, ax=ax)
-        pitch.annotate(position, (x, y), ax=ax, ha='center', va='center', fontsize=8, color='black')
-    plt.title('Formacja 4-3-3')
-    plt.show()
-
-
-def display_vert_half_formation():
-    # Tworzenie połowy pionowego boiska
-    pitch = VerticalPitch(pitch_type='statsbomb', pitch_color='grass', line_color='white')
-    fig, ax = pitch.draw(figsize=(6, 8))  # Dostosuj rozmiar figury według potrzeb
-
-    # Definicja pozycji dla formacji 4-3-3 na połowie boiska
-    positions = {
-        'Goalkeeper': (5, 40),
-        'Right Back': (20, 10),
-        'Right Center Back': (20, 30),
-        'Left Center Back': (20, 50),
-        'Left Back': (20, 70),
-        'Right Midfield': (50, 20),
-        'Center Midfield': (50, 40),
-        'Left Midfield': (50, 60),
-        'Right Wing': (80, 10),
-        'Center Forward': (80, 40),
-        'Left Wing': (80, 70)
-    }
-
-    # Rysowanie zawodników na boisku
-    for position, (x, y) in positions.items():
-        pitch.scatter(x, y, s=300, ax=ax)
-        pitch.annotate(position, (x, y), ax=ax, ha='center', va='center', fontsize=8, color='black')
-
-    plt.title('Formacja 4-3-3')
-    plt.show()
-
-
-def display_vert_formation(starting_players):
-    # Definicja współrzędnych dla przykładowej formacji 4-3-3
-    position_coords = {
-        'Goalkeeper': (5, 40),
-        'Right Back': (20, 10),
-        'Right Center Back': (20, 30),
-        'Left Center Back': (20, 50),
-        'Left Back': (20, 70),
-        'Right Midfield': (50, 20),
-        'Center Midfield': (50, 40),
-        'Left Midfield': (50, 60),
-        'Right Wing': (80, 10),
-        'Center Forward': (80, 40),
-        'Left Wing': (80, 70)
-    }
-
-    # Przypisanie współrzędnych do zawodników
-    starting_players['x'] = starting_players['starting_position'].apply(
-        lambda pos: position_coords.get(pos, (0, 0))[0]
-    )
-    starting_players['y'] = starting_players['starting_position'].apply(
-        lambda pos: position_coords.get(pos, (0, 0))[1]
-    )
-
-    # Rysowanie boiska i zawodników
-    pitch = VerticalPitch(pitch_type='statsbomb', half=True)
-    fig, ax = pitch.draw(figsize=(8, 6))
-
-    # Rysowanie zawodników
-    pitch.scatter(starting_players['x'], starting_players['y'], s=500, color='royalblue', ax=ax)
-    for _, row in starting_players.iterrows():
-        pitch.annotate(row['player_name'], (row['x'], row['y'] + 1), ax=ax,
-                       ha='center', va='bottom', fontsize=10, color='white')
-
-    plt.title(f" Starting XI")
-    plt.show()
-
-
+def display_competition_lineups():
+    matches = sb.matches(55, 282)
+    for _, match in matches.iterrows():
+        match_id = match['match_id']
+        pt.display_starting_lineups(match_id)
+        positions = ln.starting_lineups(match_id)
+        for key, value in positions.items():
+            pt.display_starting_lineup(key, value)
 
 
 if __name__ == '__main__':
@@ -163,22 +51,11 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
-    # display_shots()
+    display_shots()
     # print_competitions()
-    competitions = sb.competitions()
-    for _, competition in competitions.iterrows():
-        print(f"{competition['competition_id']} - {competition['season_id']}")
     # print_spanish_matches()
-    # matches = sb.matches(55, 282)
+    # display_competition_lineups()
     # print(matches)
-    # for _, match in matches.iterrows():
-    #     print(match)
-    #     pt.display_starting_lineups(match['match_id'])
-    #     match_id = match['match_id']
-    #     positions = ln.starting_lineups(match_id)
-    #     for key, value in positions.items():
-    #         pt.display_starting_lineup(key, value)
-    # # print(matches)
     #
     #
     # turkey_match_id = 3942382
@@ -186,23 +63,3 @@ if __name__ == '__main__':
     # belgium_match_id = 3941019
     # switzerland_match_id = 3940878
 
-
-
-
-    # england_ = positions['Spain']
-    # print(england_)
-    # pt.display_starting_lineup('Netherlands', england_)
-
-    # print(len(positions))
-
-    # ln_unique_positions = ln.unique_positions(3943043)
-    # print(ln_unique_positions)
-    # print(len(ln_unique_positions))
-
-
-    # display_players_formation(players)
-
-    # display_vert_half_formation()
-    # display_vert_half_formation()
-
-    # pt.display_half_pitch()

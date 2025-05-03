@@ -3,8 +3,7 @@ import pandas as pd
 
 import match as m
 import utils as utl
-import src.lineups.pitch as pt
-import src.lineups.lineups as ln
+from src.matches import display_competition_lineups
 from statsbombpy import sb
 
 
@@ -29,6 +28,10 @@ def print_competitions():
     print(filtered_competitions)
 
 
+def print_euro_matches():
+    matches = sb.matches(55, 282)
+    print(matches)
+
 def print_spanish_matches():
     matches = sb.matches(55, 282)
     team_name = 'Spain'
@@ -36,14 +39,6 @@ def print_spanish_matches():
     print(matches_spain)
 
 
-def display_competition_lineups():
-    matches = sb.matches(55, 282)
-    for _, match in matches.iterrows():
-        match_id = match['match_id']
-        pt.display_starting_lineups(match_id)
-        positions = ln.starting_lineups(match_id)
-        for key, value in positions.items():
-            pt.display_starting_lineup(key, value)
 
 
 if __name__ == '__main__':
@@ -51,10 +46,11 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
-    display_shots()
+    # display_shots()
+    # print_euro_matches()
     # print_competitions()
     # print_spanish_matches()
-    # display_competition_lineups()
+    display_competition_lineups()
     # print(matches)
     #
     #

@@ -18,6 +18,8 @@ def plot_frame_group(frame_group, pitch=None, ax=None):
         pitch = Pitch(pitch_type='statsbomb')
         fig, ax = pitch.draw(figsize=(10, 7))
 
+    plot_polygon(frame_group.iloc[0]['visible_area'], pitch, ax)
+
     def node_color(row):
         if row['actor']:
             return 'chartreuse'
@@ -33,6 +35,6 @@ def plot_frame_group(frame_group, pitch=None, ax=None):
             return 'black'
 
     color = frame_group.apply(node_color, axis=1)
-    edgecolors = frame_group.apply(edge_color, axis=1)
+    edge_colors = frame_group.apply(edge_color, axis=1)
     locations = frame_group['location'].apply(pd.Series)
-    pitch.scatter(locations[0], locations[1], ax=ax, color=color, s=100, edgecolors=edgecolors)
+    pitch.scatter(locations[0], locations[1], ax=ax, color=color, s=100, edgecolors=edge_colors)

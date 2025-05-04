@@ -1,6 +1,8 @@
 import unittest
 
-from src.frames import plot_polygon
+from matplotlib import pyplot as plt
+
+from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
 from src.lineups.pitch import _get_position_coordinates
 from statsbombpy import sb
@@ -70,14 +72,34 @@ class LineupsTests(unittest.TestCase):
 
 
 class FramesTests(unittest.TestCase):
+    match_id = 3938637  # Poland - Netherlands
+    kick_of_id = "57b3cd29-6810-47e7-a7c2-2baf15c4fd6b"  # Kick of, Pass
+    first_3_event_ids = ["57b3cd29-6810-47e7-a7c2-2baf15c4fd6b", "a161c7af-83ad-4d4d-8690-7e37687558ad", "8e1d7296-b2ab-4b1a-b22a-a0885454bda4"]
 
-    def test_draw_polygon_on_pitch(self):
-        frames = sb.frames(3938637)
+    def test_plot_polygon(self):
+        frames = sb.frames(self.match_id)
         frames = frames[frames['id'] == "7f3a8532-8312-41f5-9380-2b3bad74ace5"]
         frame = frames.iloc[0]
-        visible_area = frame['visible_area']
-        plot_polygon(visible_area)
+        plot_polygon(frame['visible_area'])
+        plt.show()
         self.assertEqual(18, len(frames))
+
+    def test_plot_frame_group(self):
+        frames = sb.frames(self.match_id)
+        grouped = frames.groupby('id')
+        frame_group = grouped.get_group(self.kick_of_id)
+        plot_frame_group(frame_group)
+        plt.show()
+        self.assertEqual(20, len(frame_group))
+
+    def test_plot_frame_group_first_3_events(self):
+        frames = sb.frames(self.match_id)
+        grouped = frames.groupby('id')
+        for frame_id in self.first_3_event_ids:
+            frame_group = grouped.get_group(frame_id)
+            plot_frame_group(frame_group)
+            plt.show()
+        self.assertEqual(2936, len(grouped))
 
 
 if __name__ == '__main__':

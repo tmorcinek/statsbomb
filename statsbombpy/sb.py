@@ -15,7 +15,7 @@ def competitions(fmt="dataframe"):
         if isinstance(competitions, dict):
             competitions = competitions.values()
         competitions = pd.DataFrame(competitions)
-    return competitions
+    return competitions.sort_values(by='season_name', ascending=False)
 
 
 def matches(competition_id: int, season_id: int, fmt="dataframe"):

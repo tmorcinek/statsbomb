@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from mplsoccer import Pitch
 
-import match as m
+import src.match as m
 import utils as utl
+from src.frames import plot_polygon, plot_frame_group
 from src.matches import display_competition_lineups
 from statsbombpy import sb
 
@@ -46,11 +48,24 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
+    # match = sb.events(3938637)
+    # print(match)
+    frames = sb.frames(3938637)
+    grouped = frames.groupby('id')
+    for group_id, group_df in grouped:
+        pitch = Pitch(pitch_type='statsbomb')
+        fig, ax = pitch.draw(figsize=(10, 7))
+        print(group_df)
+        plot_polygon(group_df.iloc[0]['visible_area'], pitch, ax)
+        plot_frame_group(group_df, pitch, ax)
+        plt.show()
+        # print(f"Group: {group_id}")
+
     # display_shots()
     # print_euro_matches()
     # print_competitions()
     # print_spanish_matches()
-    display_competition_lineups()
+    # display_competition_lineups()
     # print(matches)
     #
     #

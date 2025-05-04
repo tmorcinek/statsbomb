@@ -1,0 +1,38 @@
+import pandas as pd
+from mplsoccer import Pitch
+
+
+def plot_polygon(points, pitch=None, ax=None, color='red', linewidth=1.5):
+    if pitch is None or ax is None:
+        pitch = Pitch(pitch_type='statsbomb')
+        fig, ax = pitch.draw(figsize=(10, 7))
+
+    for i in range(0, len(points) - 2, 2):
+        x_start, y_start = points[i], points[i + 1]
+        x_end, y_end = points[i + 2], points[i + 3]
+        pitch.lines(x_start, y_start, x_end, y_end, ax=ax, color=color, linewidth=linewidth)
+
+
+def plot_frame_group(frame_group, pitch=None, ax=None):
+    if pitch is None or ax is None:
+        pitch = Pitch(pitch_type='statsbomb')
+        fig, ax = pitch.draw(figsize=(10, 7))
+
+    def node_color(row):
+        if row['actor']:
+            return 'chartreuse'
+        elif row['teammate']:
+            return 'blue'
+        else:
+            return 'yellow'
+
+    def edge_color(row):
+        if row['keeper']:
+            return 'magenta'
+        else:
+            return 'black'
+
+    color = frame_group.apply(node_color, axis=1)
+    edgecolors = frame_group.apply(edge_color, axis=1)
+    locations = frame_group['location'].apply(pd.Series)
+    pitch.scatter(locations[0], locations[1], ax=ax, color=color, s=100, edgecolors=edgecolors)

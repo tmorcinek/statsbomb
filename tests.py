@@ -2,10 +2,65 @@ import unittest
 
 from matplotlib import pyplot as plt
 
+import src.utils as utl
 from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
 from src.lineups.pitch import _get_position_coordinates
 from statsbombpy import sb
+
+
+class StatsbombPyTests(unittest.TestCase):
+
+    def test_competitions_euro(self):
+        competitions = sb.competitions()
+        self.assertEqual(74, len(competitions))
+        euro_2024 = competitions.iloc[68]
+        self.assertEqual("UEFA Euro", euro_2024['competition_name'])
+        self.assertEqual('2024', euro_2024['season_name'])
+        self.assertEqual(55, euro_2024['competition_id'])
+        self.assertEqual(282, euro_2024['season_id'])
+        # print(competitions.sort_values(by='season_name', ascending=False))
+
+    def test_competitions_with_360_frames(self):
+        competitions = sb.competitions()
+        self.assertEqual(74, len(competitions))
+        filtered_competitions = competitions[(competitions['match_available_360'].notnull()) & (competitions['competition_international'] == True)]
+        self.assertEqual(5, len(filtered_competitions))
+        self.assertEqual(['FIFA World Cup',
+                          'UEFA Euro',
+                          'UEFA Euro',
+                          "UEFA Women's Euro",
+                          "Women's World Cup"], filtered_competitions['competition_name'].to_list())
+        self.assertEqual(['2022',
+                          '2024',
+                          '2020',
+                          "2022",
+                          "2023"], filtered_competitions['season_name'].to_list())
+
+    def test_matches(self):
+        matches = sb.matches(55, 282)
+        self.assertEqual(51, len(matches))
+        team_name = 'Spain'
+        matches_spain = matches[(matches['home_team'] == team_name) | (matches['away_team'] == team_name)]
+        self.assertEqual(7, len(matches_spain))
+
+
+class UtilsTests(unittest.TestCase):
+
+    def test_get_competition_data(self):
+        competitions = utl.get_competition_data(55, 282)
+        self.assertEqual(1, len(competitions))
+        euro_2024 = competitions.iloc[0]
+        self.assertEqual("UEFA Euro", euro_2024['competition_name'])
+        self.assertEqual('2024', euro_2024['season_name'])
+        self.assertEqual(55, euro_2024['competition_id'])
+        self.assertEqual(282, euro_2024['season_id'])
+
+    def test_matches(self):
+        matches = sb.matches(55, 282)
+        print(matches)
+        print(matches.columns)
+        # print(competitions.sort_values(by='season_name', ascending=False))
 
 
 class LineupsTests(unittest.TestCase):

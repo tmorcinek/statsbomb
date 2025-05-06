@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import src.utils as utl
 from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
-from src.lineups.pitch import _get_position_coordinates
+from src.lineups.pitch import _get_position_coordinates, display_starting_lineup, display_starting_lineups
 from statsbombpy import sb
 
 
@@ -125,10 +125,19 @@ class LineupsTests(unittest.TestCase):
                           'Left Wing']
                          , turkey['starting_position'].to_list())
 
+    def test_display_starting_lineups(self):
+        display_starting_lineups(3943043, "Final match")
+        self.assertTrue(True)
+
+    def test_display_starting_lineup(self):
+        positions = starting_lineups(3943043)
+        for key, value in positions.items():
+            display_starting_lineup(key, value)
+        self.assertEqual({"Spain", "England"}, positions.keys(), "Netherlands")
+
 
 class FramesTests(unittest.TestCase):
     match_id = 3938637  # Poland - Netherlands
-    kick_of_id = "57b3cd29-6810-47e7-a7c2-2baf15c4fd6b"  # Kick of, Pass
     first_3_event_ids = ["57b3cd29-6810-47e7-a7c2-2baf15c4fd6b", "a161c7af-83ad-4d4d-8690-7e37687558ad", "8e1d7296-b2ab-4b1a-b22a-a0885454bda4"]
 
     def test_plot_polygon(self):
@@ -142,7 +151,7 @@ class FramesTests(unittest.TestCase):
     def test_plot_frame_group(self):
         frames = sb.frames(self.match_id)
         grouped = frames.groupby('id')
-        frame_group = grouped.get_group(self.kick_of_id)
+        frame_group = grouped.get_group("57b3cd29-6810-47e7-a7c2-2baf15c4fd6b")  # Kick of, Pass
         plot_frame_group(frame_group)
         plt.show()
         self.assertEqual(20, len(frame_group))

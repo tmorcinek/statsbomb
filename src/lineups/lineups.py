@@ -12,7 +12,7 @@ def starting_lineups(match_id) -> dict:
     }
 
 
-def unique_positions(match_id) -> set:
+def unique_positions(match_id) -> set[str]:
     return {
         pos
         for players in starting_lineups(match_id).values()
@@ -20,7 +20,7 @@ def unique_positions(match_id) -> set:
     }
 
 
-def _unique_positions_matches(competition_id: int, season_id: int) -> set:
+def _unique_positions_matches(competition_id: int, season_id: int) -> set[str]:
     matches = sb.matches(competition_id, season_id)
     positions = set()
     for match_id in matches['match_id'].to_list():

@@ -13,11 +13,20 @@ def extract_match_title(row):
     )
 
 
-def display_competition_lineups():
+def display_competition_lineups(show_half_pitches=False):
     matches = sb.matches(55, 282)
     for _, match in matches.iterrows():
         match_id = match['match_id']
         pt.display_starting_lineups(match_id, extract_match_title(match))
         positions = ln.starting_lineups(match_id)
-        for key, value in positions.items():
-            pt.display_starting_lineup(key, value)
+        if show_half_pitches:
+            for key, value in positions.items():
+                pt.display_starting_lineup(key, value)
+
+
+def display_match_lineups(match_id: int, competition_id: int = None, season_id: int = None):
+    if competition_id and season_id:
+        title = extract_match_title(sb.matches(55, 282).query("match_id == @match_id").squeeze())
+    else:
+        title = None
+    pt.display_starting_lineups(match_id, title)

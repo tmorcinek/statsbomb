@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 import src.utils as utl
 from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
+from src.lineups.matches import extract_match_title, display_match_lineups
 from src.lineups.pitch import _get_position_coordinates, display_starting_lineup, display_starting_lineups
 from statsbombpy import sb
 
@@ -134,6 +135,23 @@ class LineupsTests(unittest.TestCase):
         for key, value in positions.items():
             display_starting_lineup(key, value)
         self.assertEqual({"Spain", "England"}, positions.keys(), "Netherlands")
+
+    def test_extract_match_title(self):
+        matches = sb.matches(55, 282)
+        title = extract_match_title(matches.iloc[0])
+        self.assertEqual("Europe - UEFA Euro - 2024\nSemi-finals\nNetherlands 1:2 England\n2024-07-10, 22:00 Signal-Iduna-Park\nReferee: Felix Zwayer", title)
+
+    def test_display_competition_lineups(self):
+        # display_competition_lineups()
+        self.assertTrue(True)
+
+    def test_display_match_lineups(self):
+        display_match_lineups(3943043, 55, 282)
+        self.assertTrue(True)
+
+    def test_display_match_lineups_no_title(self):
+        display_match_lineups(3943043)
+        self.assertTrue(True)
 
 
 class FramesTests(unittest.TestCase):

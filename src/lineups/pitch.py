@@ -92,6 +92,10 @@ def display_starting_lineup(team_name, lineup):
     plt.show()
 
 
+def __extract_lineup_title(lineups: dict):
+    return ' vs '.join(lineups.keys())
+
+
 def _display_starting_lineups(lineups, title):
     pitch = VerticalPitch(pitch_type='statsbomb')
     fig, ax = pitch.draw(figsize=(6, 8))
@@ -104,9 +108,9 @@ def _display_starting_lineups(lineups, title):
         legend_elements += Patch(facecolor=color, edgecolor='black', label=key),
 
     ax.legend(handles=legend_elements, loc='upper right', fontsize=10)
-    plt.title(title)
+    plt.title(title if title else __extract_lineup_title(lineups))
     plt.show()
 
 
-def display_starting_lineups(match_id, title="Starting XI's"):
+def display_starting_lineups(match_id, title):
     _display_starting_lineups(starting_lineups(match_id), title)

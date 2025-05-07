@@ -17,30 +17,35 @@ def print_events_info(match_id):
     print(len(event_counts))
 
 
-def print_competition_info(competition_id, season_id):
+def get_competition_data(competition_id, season_id):
+    competition = sb.competitions()
+    competition = competition[(competition['competition_id'] == competition_id) & (competition['season_id'] == season_id)]
+    return competition.squeeze()
+
+def get_competition_info(competition_id, season_id) -> tuple[pd.Series, pd.DataFrame]:
     competition = get_competition_data(competition_id, season_id)
-    print("competition:\n", competition)
 
     df = sb.matches(competition_id, season_id)
     df = df.sort_values(by='match_date', ascending=True)
     df['score'] = df.apply(lambda row: f"{row['home_score']}:{row['away_score']}", axis=1)
-    df = df[['match_id', 'match_date', 'home_team', 'away_team', 'score']]
+    df = df[['match_id', 'match_date', 'home_team', 'away_team', 'score', 'home_score', 'away_score']]
 
-    print(df)
-    print(f"Number of games: {df.shape[0]}")
+    return competition, df
+
+
+def print_competition_info(competition_id, season_id):
+    competition, matches = get_competition_info(competition_id, season_id)
+    print(f"{competition['competition_name']} {competition['season_name']}, {competition['competition_gender']} (competition_id: {competition['competition_id']}, season_id: {season_id})")
+    print(matches)
 
 
 def print_competition_bayer():
     competition_id = 9
     season_id = 281
-    competition = get_competition_data(competition_id, season_id)
+    competition, df = get_competition_info(competition_id, season_id)
     print("competition:\n", competition)
 
     team_name = "Bayer Leverkusen"
-
-    df = sb.matches(competition_id, season_id)
-    df['score'] = df.apply(lambda row: f"{row['home_score']}:{row['away_score']}", axis=1)
-    df = df.sort_values(by='match_date', ascending=True)
 
     def calculate_points(row):
         home_score = row['home_score']
@@ -83,9 +88,3 @@ def print_competition_bayer():
         'form': form
     }
     print(pd.DataFrame([team_data]))
-
-
-def get_competition_data(competition_id, season_id):
-    competition = sb.competitions()
-    competition = competition[(competition['competition_id'] == competition_id) & (competition['season_id'] == season_id)]
-    return competition

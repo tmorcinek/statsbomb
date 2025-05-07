@@ -7,6 +7,7 @@ from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
 from src.lineups.matches import extract_match_title, display_match_lineups
 from src.lineups.pitch import _get_position_coordinates, display_starting_lineup, display_starting_lineups
+from src.utils import get_competition_info
 from statsbombpy import sb
 
 
@@ -45,23 +46,42 @@ class StatsbombPyTests(unittest.TestCase):
         matches_spain = matches[(matches['home_team'] == team_name) | (matches['away_team'] == team_name)]
         self.assertEqual(7, len(matches_spain))
 
+    def test_matches_final(self):
+        matches = sb.matches(55, 282).sort_values(by='match_date', ascending=False)
+        self.assertEqual(51, len(matches))
+        self.assertEqual(['match_id', 'match_date', 'kick_off', 'competition', 'season',
+                          'home_team', 'away_team', 'home_score', 'away_score', 'match_status',
+                          'match_status_360', 'last_updated', 'last_updated_360', 'match_week',
+                          'competition_stage', 'stadium', 'referee', 'home_managers',
+                          'away_managers', 'data_version', 'shot_fidelity_version',
+                          'xy_fidelity_version'], matches.columns.to_list())
+
+        final_match = matches.iloc[0]
+        self.assertEqual(3943043, final_match['match_id'])
+        self.assertEqual("Final", final_match['competition_stage'])
+        self.assertEqual("2024-07-14", final_match['match_date'])
+        self.assertEqual("SpainEngland", final_match['home_team'] + final_match['away_team'])
+        self.assertEqual("21", str(final_match['home_score']) + str(final_match['away_score']))
+
 
 class UtilsTests(unittest.TestCase):
 
     def test_get_competition_data(self):
-        competitions = utl.get_competition_data(55, 282)
-        self.assertEqual(1, len(competitions))
-        euro_2024 = competitions.iloc[0]
+        euro_2024 = utl.get_competition_data(55, 282)
         self.assertEqual("UEFA Euro", euro_2024['competition_name'])
         self.assertEqual('2024', euro_2024['season_name'])
         self.assertEqual(55, euro_2024['competition_id'])
         self.assertEqual(282, euro_2024['season_id'])
 
     def test_matches(self):
-        matches = sb.matches(55, 282)
-        print(matches)
-        print(matches.columns)
-        # print(competitions.sort_values(by='season_name', ascending=False))
+        competition, matches = get_competition_info(55, 282)
+
+        self.assertEqual("UEFA Euro", competition['competition_name'])
+        self.assertEqual("Europe", competition['country_name'])
+        self.assertEqual("2024", competition['season_name'])
+
+        self.assertEqual(51, len(matches))
+        self.assertEqual(['match_id', 'match_date', 'home_team', 'away_team', 'score'], matches.columns.to_list())
 
 
 class LineupsTests(unittest.TestCase):
@@ -151,6 +171,10 @@ class LineupsTests(unittest.TestCase):
 
     def test_display_match_lineups_no_title(self):
         display_match_lineups(3943043)
+        self.assertTrue(True)
+
+    def test_display_match_lineups_ucl_final_2014(self):
+        display_match_lineups(18242)
         self.assertTrue(True)
 
 

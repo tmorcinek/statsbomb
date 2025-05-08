@@ -1,26 +1,28 @@
 import pandas as pd
 
 from statsbombpy import sb
-from statsbombpy.local import get_data
 
 
 def print_events_info(match_id):
-    df = pd.DataFrame(get_data(f"events/{match_id}.json"))
+    df = sb.events(match_id)
 
-    df['type_name'] = df['type'].apply(lambda x: x['name'] if isinstance(x, dict) else None)
-
-    event_types = df['type_name'].unique()
+    event_types = df['type'].unique()
     print("Rodzaje wydarzeń:", event_types)
 
-    event_counts = df['type_name'].value_counts()
+    event_counts = df['type'].value_counts()
     print("\nLiczba każdego typu wydarzenia:\n", event_counts)
     print(len(event_counts))
+
+
+def get_events_type_counts(match_id) -> pd.Series:
+    return sb.events(match_id)['type'].value_counts()
 
 
 def get_competition_data(competition_id, season_id):
     competition = sb.competitions()
     competition = competition[(competition['competition_id'] == competition_id) & (competition['season_id'] == season_id)]
     return competition.squeeze()
+
 
 def get_competition_info(competition_id, season_id) -> tuple[pd.Series, pd.DataFrame]:
     competition = get_competition_data(competition_id, season_id)
@@ -35,7 +37,8 @@ def get_competition_info(competition_id, season_id) -> tuple[pd.Series, pd.DataF
 
 def print_competition_info(competition_id, season_id):
     competition, matches = get_competition_info(competition_id, season_id)
-    print(f"{competition['competition_name']} {competition['season_name']}, {competition['competition_gender']} (competition_id: {competition['competition_id']}, season_id: {season_id})")
+    print(
+        f"{competition['competition_name']} {competition['season_name']}, {competition['competition_gender']} (competition_id: {competition['competition_id']}, season_id: {season_id})")
     print(matches)
 
 

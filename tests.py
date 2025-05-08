@@ -7,7 +7,7 @@ from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
 from src.lineups.matches import extract_match_title, display_match_lineups
 from src.lineups.pitch import _get_position_coordinates, display_starting_lineup, display_starting_lineups
-from src.utils import get_competition_info
+from src.utils import get_competition_info, get_events_type_counts
 from statsbombpy import sb
 
 
@@ -73,7 +73,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual(55, euro_2024['competition_id'])
         self.assertEqual(282, euro_2024['season_id'])
 
-    def test_matches(self):
+    def test_get_competition_info(self):
         competition, matches = get_competition_info(55, 282)
 
         self.assertEqual("UEFA Euro", competition['competition_name'])
@@ -82,6 +82,17 @@ class UtilsTests(unittest.TestCase):
 
         self.assertEqual(51, len(matches))
         self.assertEqual(['match_id', 'match_date', 'home_team', 'away_team', 'score'], matches.columns.to_list())
+
+    def test_get_events_type_counts(self):
+        type_counts = get_events_type_counts(3938637)
+
+        self.assertEqual(27, len(type_counts))
+        self.assertEqual(954, type_counts['Pass'])
+        self.assertEqual([954, 919, 810, 263, 73, 54, 45, 44, 38, 33, 28, 21, 21, 18, 18, 16, 12, 10, 5, 4, 4, 2, 2, 2, 2, 2, 1], type_counts.values.tolist())
+        self.assertEqual(
+            ['Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Ball Recovery', 'Duel', 'Block', 'Clearance', 'Goal Keeper', 'Shot', 'Dribble', 'Dribbled Past',
+             'Dispossessed', 'Foul Committed', 'Foul Won', 'Interception', 'Miscontrol', 'Substitution', 'Tactical Shift', 'Half Start', 'Half End',
+             'Player On', '50/50', 'Starting XI', 'Player Off', 'Injury Stoppage', 'Error'], type_counts.keys().to_list())
 
 
 class LineupsTests(unittest.TestCase):

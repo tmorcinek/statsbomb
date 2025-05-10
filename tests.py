@@ -86,6 +86,7 @@ class UtilsTests(unittest.TestCase):
     def test_get_events_type_counts(self):
         type_counts = get_events_type_counts(3938637)
 
+        print(type_counts)
         self.assertEqual(27, len(type_counts))
         self.assertEqual(954, type_counts['Pass'])
         self.assertEqual([954, 919, 810, 263, 73, 54, 45, 44, 38, 33, 28, 21, 21, 18, 18, 16, 12, 10, 5, 4, 4, 2, 2, 2, 2, 2, 1], type_counts.values.tolist())

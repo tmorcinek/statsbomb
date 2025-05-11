@@ -14,7 +14,34 @@ def display_goals(match_id):
     plot_shots(events[events['type'] == 'Shot'], "Shots")
 
 
-def plot_shots_by_team(df, title="Shots Map by Team"):
+def summarize_shot_outcomes(df):
+    summary = (
+        df.groupby('shot_outcome')
+        .agg(
+            shots=('shot_outcome', 'count'),
+            total_xg=('shot_statsbomb_xg', 'sum')
+        )
+        .reset_index()
+        .sort_values(by='total_xg', ascending=False)
+    )
+
+    overall_xg = df['shot_statsbomb_xg'].sum()
+    total_shots = len(df)
+    avg_xg = overall_xg / total_shots if total_shots > 0 else 0
+
+    lines = ["Shots summary:"]
+    for _, row in summary.iterrows():
+        lines.append(f"• {row['shot_outcome']}: {row['shots']} shots, xG = {row['total_xg']:.3f}")
+
+    lines.append(f"\n Overall xG: {overall_xg:.3f}")
+    lines.append(f"\n Overall shots: {total_shots}")
+    lines.append(f"\n Average xG per shot: {avg_xg:.3f}")
+    return '\n'.join(lines)
+
+
+def plot_shots_by_team(match_id, title="Shots Map by Team"):
+    df = sb.events(match_id)
+    df = df[df['type'] == 'Shot']
     teams = df['team'].unique()
     if len(teams) != 2:
         raise ValueError("DataFrame must contain exactly two teams.")
@@ -45,7 +72,7 @@ def plot_shots_by_team(df, title="Shots Map by Team"):
             if xg:
                 ax.text(x, y - 2, f"{xg:.2f}", ha='center', fontsize=8, color='black')
 
-        ax.set_title(f"{team}", fontsize=14)
+        ax.set_title(f"{len(team_df[team_df['shot_outcome'] == 'Goal'])}\n{team}\n{summarize_shot_outcomes(team_df)}", fontsize=14)
 
         if ax == axes[0]:
             handles, labels = ax.get_legend_handles_labels()

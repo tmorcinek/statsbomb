@@ -9,9 +9,15 @@ from src.lineups.matches import extract_match_title, display_match_lineups
 from src.lineups.pitch import _get_position_coordinates, display_starting_lineup, display_starting_lineups
 from src.utils import get_competition_info, get_events_type_counts
 from statsbombpy import sb
+import pandas as pd
 
 
 class StatsbombPyTests(unittest.TestCase):
+
+    def setUp(self):
+        pd.set_option('display.width', 1000)
+        pd.set_option('display.max_rows', None)
+        pd.set_option('display.max_columns', None)
 
     def test_competitions_euro(self):
         competitions = sb.competitions()
@@ -41,6 +47,7 @@ class StatsbombPyTests(unittest.TestCase):
 
     def test_matches(self):
         matches = sb.matches(55, 282)
+        # print(matches)
         self.assertEqual(51, len(matches))
         team_name = 'Spain'
         matches_spain = matches[(matches['home_team'] == team_name) | (matches['away_team'] == team_name)]

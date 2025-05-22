@@ -18,6 +18,10 @@ def get_events_type_counts(match_id) -> pd.Series:
     return sb.events(match_id)['type'].value_counts()
 
 
+def get_events_type_unique(match_id) -> set[str]:
+    return set(sb.events(match_id)['type'].unique())
+
+
 def get_competition_data(competition_id, season_id):
     competition = sb.competitions()
     competition = competition[(competition['competition_id'] == competition_id) & (competition['season_id'] == season_id)]

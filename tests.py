@@ -1,5 +1,6 @@
 import unittest
 
+import pandas as pd
 from matplotlib import pyplot as plt
 
 import src.utils as utl
@@ -7,9 +8,8 @@ from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
 from src.lineups.matches import extract_match_title, display_match_lineups
 from src.lineups.pitch import _get_position_coordinates, display_starting_lineup, display_starting_lineups
-from src.utils import get_competition_info, get_events_type_counts
+from src.utils import get_competition_info, get_events_type_counts, get_events_type_unique
 from statsbombpy import sb
-import pandas as pd
 
 
 class StatsbombPyTests(unittest.TestCase):
@@ -101,6 +101,46 @@ class UtilsTests(unittest.TestCase):
             ['Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Ball Recovery', 'Duel', 'Block', 'Clearance', 'Goal Keeper', 'Shot', 'Dribble', 'Dribbled Past',
              'Dispossessed', 'Foul Committed', 'Foul Won', 'Interception', 'Miscontrol', 'Substitution', 'Tactical Shift', 'Half Start', 'Half End',
              'Player On', '50/50', 'Starting XI', 'Player Off', 'Injury Stoppage', 'Error'], type_counts.keys().to_list())
+
+    def test_get_events_type_counts_for_all_euro_matches(self):
+        matches = sb.matches(55, 282)
+        for match_id in matches['match_id'].to_list():
+            type_counts = get_events_type_counts(match_id)
+            self.assertLessEqual(len(type_counts), 33)
+
+    def test_get_events_type(self):
+        event_types = get_events_type_unique(3938637)
+        print(event_types)
+        self.assertEqual(len(event_types), 27)
+        self.assertEqual(event_types,
+                         {'Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Ball Recovery', 'Duel', 'Block', 'Clearance', 'Goal Keeper', 'Shot', 'Dribble',
+                          'Dribbled Past',
+                          'Dispossessed', 'Foul Committed', 'Foul Won', 'Interception', 'Miscontrol', 'Substitution', 'Tactical Shift', 'Half Start',
+                          'Half End',
+                          'Player On', '50/50', 'Starting XI', 'Player Off', 'Injury Stoppage', 'Error'})
+
+    def test_get_events_type_comparison(self):
+        type_counts_poland = get_events_type_unique(3938637)
+        type_counts_other = get_events_type_unique(3930167)
+        difference = type_counts_other.difference(type_counts_poland)
+        self.assertEqual(difference, {'Referee Ball-Drop', 'Own Goal Against', 'Shield', 'Own Goal For', 'Offside', 'Bad Behaviour'})
+        self.assertEqual(len(type_counts_other) - len(type_counts_poland), 6)
+        self.assertEqual(len(difference), 6)
+
+        union = type_counts_other.union(type_counts_poland)
+        self.assertEqual(len(union), 33)
+
+    def test_get_events_type_all_euro_matches_union(self):
+        union = set()
+        matches = sb.matches(55, 282)
+        for match_id in matches['match_id'].to_list():
+            union.update(get_events_type_unique(match_id))
+
+        self.assertEqual(len(union), 33)
+        self.assertEqual(union, {'Dispossessed', 'Dribbled Past', 'Referee Ball-Drop', 'Own Goal For', 'Half Start', 'Foul Committed', 'Error', 'Goal Keeper',
+                                 'Starting XI', 'Ball Recovery', 'Dribble', 'Player Off', 'Foul Won', 'Carry', 'Bad Behaviour', 'Block', 'Interception',
+                                 'Tactical Shift', 'Pressure', 'Player On', 'Half End', 'Injury Stoppage', 'Offside', 'Pass', 'Substitution', 'Ball Receipt*',
+                                 'Shield', 'Miscontrol', 'Own Goal Against', 'Shot', '50/50', 'Clearance', 'Duel'})
 
 
 class LineupsTests(unittest.TestCase):

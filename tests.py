@@ -121,7 +121,7 @@ class UtilsTests(unittest.TestCase):
 
     def test_get_events_type_comparison(self):
         type_counts_poland = get_events_type_unique(3938637)
-        type_counts_other = get_events_type_unique(3930167)
+        type_counts_other = get_events_type_unique(3930167) # all the event types
         difference = type_counts_other.difference(type_counts_poland)
         self.assertEqual(difference, {'Referee Ball-Drop', 'Own Goal Against', 'Shield', 'Own Goal For', 'Offside', 'Bad Behaviour'})
         self.assertEqual(len(type_counts_other) - len(type_counts_poland), 6)

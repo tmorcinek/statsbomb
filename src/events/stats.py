@@ -29,14 +29,23 @@ def team_stats_summary(df):
     for team in teams:
         team_stats[team]['Total attempts'] = len(shots[shots['team'] == team])
 
+        # Shots on target
+        shots_on_target = shots[
+            (shots['team'] == team) &
+            (shots['shot_outcome'].isin(['Saved', 'Goal']))
+        ]
+        team_stats[team]['Shots on target'] = len(shots_on_target)
+
+        # Goals
+        goals = shots[
+            (shots['team'] == team) &
+            (shots['shot_outcome'] == 'Goal')
+        ]
+        team_stats[team]['Goals'] = len(goals)
+
     # Attacks = number of possessions
     for team in teams:
         team_stats[team]['Attacks'] = df[df['possession_team'] == team]['possession'].nunique()
-
-    # Corners taken
-    corners = df[df['play_pattern'] == 'From Corner']
-    for team in teams:
-        team_stats[team]['Corners taken'] = len(corners[corners['team'] == team])
 
     # Passing stats
     passes = df[(df['type'] == 'Pass') & (df['pass_type'].isna() | df['pass_type'].isin(['Recovery']))]
@@ -57,10 +66,32 @@ def team_stats_summary(df):
     for team in teams:
         team_stats[team]['Offsides'] = len(df[(df['type'] == 'Offside') & (df['team'] == team)])
 
+    # Dribbles
+    for team in teams:
+        team_stats[team]['Dribbles'] = len(df[(df['type'] == 'Dribble') & (df['team'] == team)])
+
     # Saves
     for team in teams:
         team_stats[team]['Saves'] = len(shots[(shots['team'] != team) & (shots['shot_outcome'] == 'Saved')])
+        team_stats[team]['Blocks'] = len(shots[(shots['team'] != team) & (shots['shot_outcome'] == 'Blocked')])
         # team_stats[team]['Saves'] = len(df[(df['type'] == 'Save') & (df['team'] == team)])
+
+    # Set piece types via pass_type
+    pass_events = df[df['type'] == 'Pass']
+    for team in teams:
+        team_passes = pass_events[pass_events['team'] == team]
+        team_stats[team]['Goal Kicks'] = len(team_passes[team_passes['pass_type'] == 'Goal Kick'])
+        team_stats[team]['Throw-ins'] = len(team_passes[team_passes['pass_type'] == 'Throw-in'])
+        team_stats[team]['Corners taken'] = len(team_passes[team_passes['pass_type'] == 'Corner'])
+        team_stats[team]['Free Kicks'] = len(team_passes[team_passes['pass_type'] == 'Free Kick'])
+
+    # Fouls and Yellow Cards
+    fouls = df[df['type'] == 'Foul Committed']
+    for team in teams:
+        team_fouls = fouls[fouls['team'] == team]
+        team_stats[team]['Fouls committed'] = len(team_fouls)
+        team_stats[team]['Yellow cards'] = len(team_fouls[team_fouls['foul_committed_card'] == 'Yellow Card'])
+        team_stats[team]['Red cards'] = len(team_fouls[team_fouls['foul_committed_card'] == 'Red Card'])
 
     # Yellow/Red cards
     # for team in teams:

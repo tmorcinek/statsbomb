@@ -3,17 +3,6 @@ import pandas as pd
 from statsbombpy import sb
 
 
-def print_events_info(match_id):
-    df = sb.events(match_id)
-
-    event_types = df['type'].unique()
-    print("Rodzaje wydarzeń:", event_types)
-
-    event_counts = df['type'].value_counts()
-    print("\nLiczba każdego typu wydarzenia:\n", event_counts)
-    print(len(event_counts))
-
-
 def get_events_type_counts(match_id) -> pd.Series:
     return sb.events(match_id)['type'].value_counts()
 

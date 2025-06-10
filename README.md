@@ -112,6 +112,9 @@ Name: count, dtype: int64
 ['From Kick Off', 'From Goal Kick', 'From Throw In', 'Regular Play', 'From Corner', 'From Counter', 'From Free Kick', 'From Keeper', 'Other']
 ```
 
+## External sources
+
+https://www.uefa.com/euro2024/match/2036211--spain-vs-england/statistics/
 
 
 ## 🧪 Tools & Technologies

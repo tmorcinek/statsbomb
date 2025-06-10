@@ -5,12 +5,9 @@ from src.lineups.matches import display_match_lineups
 from statsbombpy import sb
 
 
-def display_goals(match_id):
+def display_shots(match_id):
     display_match_lineups(match_id, 55, 282)
     events = sb.events(match_id)
-    goals = events[events['shot_outcome'] == 'Goal']
-    goals = goals.dropna(axis=1, how='all')
-    print(goals)
     plot_shots(events[events['type'] == 'Shot'], "Shots")
 
 

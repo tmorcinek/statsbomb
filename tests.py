@@ -3,6 +3,7 @@ import unittest
 import pandas as pd
 from matplotlib import pyplot as plt
 
+import src.events.match as m
 import src.utils as utl
 from src.frames import plot_polygon, plot_frame_group
 from src.lineups.lineups import starting_lineups, unique_positions, _unique_positions_matches
@@ -70,6 +71,29 @@ class StatsbombPyTests(unittest.TestCase):
         self.assertEqual("SpainEngland", final_match['home_team'] + final_match['away_team'])
         self.assertEqual("21", str(final_match['home_score']) + str(final_match['away_score']))
 
+    def test_events(self):
+        events = sb.events(3943043)
+        goals = events[events['shot_outcome'] == 'Goal']
+        goals = goals.dropna(axis=1, how='all')
+        print(goals)
+        self.assertEqual(len(goals), 3)
+        self.assertEqual(goals.iloc[0]["player"], "Nicholas Williams Arthuer")
+        self.assertEqual(goals.iloc[1]["player"], "Cole Palmer")
+        self.assertEqual(goals.iloc[2]["player"], "Mikel Oyarzabal Ugarte")
+
+    def test_events_shots(self):
+        events = sb.events(3943043)
+        shots = events[events['type'] == 'Shot']
+        self.assertEqual(len(shots), 25)
+        self.assertEqual(len(shots[shots["team"] == "Spain"]), 16)
+        self.assertEqual(len(shots[shots["team"] == "England"]), 9)
+
+    def test_events_filter_shots(self):
+        shots = sb.events(3943043, filters={"type": "Shot"})
+        self.assertEqual(len(shots), 25)
+        self.assertEqual(len(shots[shots["team"] == "Spain"]), 16)
+        self.assertEqual(len(shots[shots["team"] == "England"]), 9)
+
 
 class UtilsTests(unittest.TestCase):
 
@@ -121,7 +145,7 @@ class UtilsTests(unittest.TestCase):
 
     def test_get_events_type_comparison(self):
         type_counts_poland = get_events_type_unique(3938637)
-        type_counts_other = get_events_type_unique(3930167) # all the event types
+        type_counts_other = get_events_type_unique(3930167)  # all the event types
         difference = type_counts_other.difference(type_counts_poland)
         self.assertEqual(difference, {'Referee Ball-Drop', 'Own Goal Against', 'Shield', 'Own Goal For', 'Offside', 'Bad Behaviour'})
         self.assertEqual(len(type_counts_other) - len(type_counts_poland), 6)
@@ -265,6 +289,22 @@ class FramesTests(unittest.TestCase):
             plot_frame_group(frame_group)
             plt.show()
         self.assertEqual(2936, len(grouped))
+
+
+class MatchesTests(unittest.TestCase):
+
+    def test_display_shots(self):
+        m.display_shots(3943043)  ## final
+        self.assertTrue(True)
+
+    def test_plot_shots(self):
+        shots = sb.events(3943043, filters={"type": "Shot"})
+        m.plot_shots(shots, "Shots")
+        self.assertTrue(True)
+
+    def test_plot_shots_by_team(self):
+        m.plot_shots_by_team(3943043)
+        self.assertTrue(True)
 
 
 if __name__ == '__main__':

@@ -1,15 +1,3 @@
-from pandas import DataFrame
-
-from statsbombpy import sb
-
-
-def get_events(match_id) -> DataFrame:
-    return sb.events(match_id)
-
-def get_events_of_type(events_df, event_type: str) -> DataFrame:
-    return events_df[events_df['type'] == event_type]
-
-
 def team_stats_summary(df):
     teams = df['team'].dropna().unique()
     if len(teams) != 2:

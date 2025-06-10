@@ -1,19 +1,10 @@
-import matplotlib.pyplot as plt
 import pandas as pd
 
-import src.match as m
+import src.events.match as m
 import src.utils as utl
+import src.lineups.lineups as ln
+import src.events.stats as st
 from statsbombpy import sb
-
-
-def display_shots():
-    utl.print_competition_info(55, 282)
-    utl.print_events_info(3938637)
-    m.display_shots(3938637)
-    # print_competition_bayer()
-    # df = competition_df(9, 281)
-    # print(df)
-    plt.show()
 
 
 def print_euro_matches():
@@ -47,10 +38,24 @@ if __name__ == '__main__':
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
 
-    # print(len(PLURALS))
-    # print(PLURALS)
+    # utl.print_competition_info(55, 282)
 
-    display_shots()
+    match_id = 3943043  ## final
+    # match_id = 3930167 ## all the event types
+
+    df = sb.events(3943043, filters={"type": "Ball Recovery"})
+    # df = df[df['pass_type'] == 'Throw-in']
+    df = df.dropna(axis=1, how='all')
+
+    print(df)
+    print(df.shape)
+    # df = df[df['type'] == 'Foul Committed']
+    # print(df.dropna(axis=1, how='all'))
+    # df = st.get_events_of_type(df, 'Bad Behaviour')
+
+    summary = st.team_stats_summary(sb.events(match_id))
+    for team, stats in summary.items():
+        print(f"{team}: {stats}")
 
     # turkey_match_id = 3942382
     # dennmark_match_id = 3930171

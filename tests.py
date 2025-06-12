@@ -4,10 +4,11 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 import src.events.match as m
+import src.events.stats as st
 import src.frames as fr
 import src.lineups.lineups as ln
-import src.lineups.pitch as pt
 import src.lineups.matches as ms
+import src.lineups.pitch as pt
 import src.utils as utl
 from statsbombpy import sb
 
@@ -111,7 +112,7 @@ class UtilsTests(unittest.TestCase):
         self.assertEqual("2024", competition['season_name'])
 
         self.assertEqual(51, len(matches))
-        self.assertEqual(['match_id','match_date','home_team','away_team','score','home_score','away_score'], matches.columns.to_list())
+        self.assertEqual(['match_id', 'match_date', 'home_team', 'away_team', 'score', 'home_score', 'away_score'], matches.columns.to_list())
 
     def test_get_events_type_counts(self):
         type_counts = utl.get_events_type_counts(3938637)
@@ -305,6 +306,54 @@ class MatchesTests(unittest.TestCase):
         m.plot_shots_by_team(3943043)
         self.assertTrue(True)
 
+
+class StatsTests(unittest.TestCase):
+
+    def test_team_stats_summary_final(self):
+        events = sb.events(3943043)
+
+        expected = {
+            'Spain': {
+                'Possession (%)': 51.7, 'Total attempts': 16, 'Shots on target': 6, 'Goals': 2,
+                'Attacks': 76, 'Passes attempted': 546, 'Passes completed': 482,
+                'Passing accuracy (%)': 88.3, 'Balls recovered': 38, 'Offsides': 0,
+                'Dribbles': 11, 'Saves': 2, 'Blocks': 4, 'Goal Kicks': 6,
+                'Throw-ins': 21, 'Corners taken': 10, 'Free Kicks': 5,
+                'Fouls committed': 12, 'Yellow cards': 1, 'Red cards': 0
+            },
+            'England': {
+                'Possession (%)': 48.3, 'Total attempts': 9, 'Shots on target': 3, 'Goals': 1,
+                'Attacks': 71, 'Passes attempted': 284, 'Passes completed': 227,
+                'Passing accuracy (%)': 79.9, 'Balls recovered': 33, 'Offsides': 0,
+                'Dribbles': 13, 'Saves': 4, 'Blocks': 5, 'Goal Kicks': 11,
+                'Throw-ins': 11, 'Corners taken': 2, 'Free Kicks': 11,
+                'Fouls committed': 7, 'Yellow cards': 3, 'Red cards': 0
+            }
+        }
+
+        self.assertEqual(expected, st.team_stats_summary(events))
+
+    def test_team_stats_summary_poland(self):
+        events = sb.events(3938637)
+
+        expected = {
+            'Netherlands': {
+                'Possession (%)': 56.0, 'Total attempts': 21, 'Shots on target': 4, 'Goals': 2,
+                'Attacks': 84, 'Passes attempted': 578, 'Passes completed': 510, 'Passing accuracy (%)': 88.2,
+                'Balls recovered': 37, 'Offsides': 0, 'Dribbles': 17, 'Saves': 6, 'Blocks': 1,
+                'Goal Kicks': 2, 'Throw-ins': 29, 'Corners taken': 6, 'Free Kicks': 12,
+                'Fouls committed': 8, 'Yellow cards': 1, 'Red cards': 0
+            },
+            'Poland': {
+                'Possession (%)': 44.0, 'Total attempts': 12, 'Shots on target': 7, 'Goals': 1,
+                'Attacks': 66, 'Passes attempted': 276, 'Passes completed': 211, 'Passing accuracy (%)': 76.4,
+                'Balls recovered': 36, 'Offsides': 0, 'Dribbles': 11, 'Saves': 2, 'Blocks': 3,
+                'Goal Kicks': 15, 'Throw-ins': 13, 'Corners taken': 3, 'Free Kicks': 8,
+                'Fouls committed': 10, 'Yellow cards': 0, 'Red cards': 0
+            }
+        }
+
+        self.assertEqual(expected, st.team_stats_summary(events))
 
 if __name__ == '__main__':
     unittest.main()

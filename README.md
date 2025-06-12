@@ -96,6 +96,16 @@ Name: count, dtype: int64
 ```python
 ['Kick Off', nan, 'Goal Kick', 'Recovery', 'Throw-in', 'Corner', 'Free Kick', 'Interception']
 ```
+'Recovery':
+ - zawodnik przejmuje kontrolę nad piłką (np. po niedokładnym podaniu przeciwnika, zablokowanym strzale, itp.),
+ - natychmiast zagrywa podanie,
+ - to podanie ma pass_type = 'Recovery'.
+
+'Interception':
+ - Zawodnik przerywa podanie przeciwnika (czyli przechwytuje piłkę),
+ - Bezpośrednio po tym wykonuje własne podanie,
+ - To właśnie to podanie będzie miało pass_type = 'Interception'.
+
 
 **pass_outcome**
 ```python

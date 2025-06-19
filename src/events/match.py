@@ -109,3 +109,33 @@ def plot_shots(df, title="Shots Map"):
     ax.legend(by_label.values(), by_label.keys(), loc='lower left')
 
     plt.show()
+
+
+def plot_passes(df, title="Pass Map"):
+    pitch = Pitch(pitch_type='statsbomb', pitch_color='white', line_color='black')
+    fig, ax = pitch.draw(figsize=(12, 8))
+
+    for _, row in df.iterrows():
+        x, y = row['location']
+        end_x, end_y = row['pass_end_location']
+
+        outcome = row.get('pass_outcome', 'Complete')
+
+        # Determine arrow color by outcome
+        color = {
+            'Complete': 'green',
+            'Incomplete': 'red',
+            'Out': 'gray',
+            'Unknown': 'yellow'
+        }.get(outcome, 'black')
+
+        pitch.arrows(x, y, end_x, end_y, width=1.5, headwidth=4, color=color, ax=ax, label=outcome)
+
+    ax.set_title(title, fontsize=16)
+
+    # De-duplicate legend
+    handles, labels = ax.get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    ax.legend(by_label.values(), by_label.keys(), loc='upper left')
+
+    plt.show()

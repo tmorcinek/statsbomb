@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 import src.events.match as m
 import src.events.stats as st
-import src.frames as fr
+import src.events.frames as fr
 import src.lineups.lineups as ln
 import src.lineups.matches as ms
 import src.lineups.pitch as pt

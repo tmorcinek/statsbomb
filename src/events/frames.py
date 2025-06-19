@@ -2,6 +2,10 @@ import pandas as pd
 from mplsoccer import Pitch
 
 
+def get_frames_for_event(event_row: pd.Series, frames_df: pd.DataFrame) -> pd.DataFrame:
+    return frames_df[frames_df['id'] == event_row['id']]
+
+
 def plot_polygon(points, pitch=None, ax=None, color='red', linewidth=1.5):
     if pitch is None or ax is None:
         pitch = Pitch(pitch_type='statsbomb')
@@ -13,10 +17,13 @@ def plot_polygon(points, pitch=None, ax=None, color='red', linewidth=1.5):
         pitch.lines(x_start, y_start, x_end, y_end, ax=ax, color=color, linewidth=linewidth)
 
 
-def plot_frame_group(frame_group, pitch=None, ax=None):
+def plot_frame_group(frame_group: pd.DataFrame, pitch=None, ax=None, title=None):
     if pitch is None or ax is None:
         pitch = Pitch(pitch_type='statsbomb')
         fig, ax = pitch.draw(figsize=(10, 7))
+
+    if title:
+        ax.set_title(title, fontsize=16)
 
     plot_polygon(frame_group.iloc[0]['visible_area'], pitch, ax)
 

@@ -438,17 +438,6 @@ class EventsDataTests(unittest.TestCase):
         ]
         self.assertEqual(event_types, types.tolist())
 
-    def test_pass_outcome(self):
-        events = sb.events(3943043)  # final
-        types = dt.pass_outcome.unique()
-        event_types = [
-            'Starting XI', 'Half Start', 'Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Miscontrol', 'Block', 'Dispossessed',
-            'Duel', 'Dribble', 'Ball Recovery', 'Clearance', 'Interception', 'Dribbled Past', 'Foul Committed', 'Foul Won',
-            'Shot', 'Goal Keeper', 'Injury Stoppage', 'Referee Ball-Drop', '50/50', 'Half End', 'Substitution', 'Shield',
-            'Tactical Shift', 'Error'
-        ]
-        self.assertEqual(event_types, types.tolist())
-
     def test_passes(self):
         events = sb.events(3943043)  # final
         events = events.passes()
@@ -460,6 +449,21 @@ class EventsDataTests(unittest.TestCase):
         events = events.shots()
         self.assertEqual(['Shot'], dt.types(events).tolist())
         self.assertEqual(25, len(events))
+
+    def test_own_goals(self):
+        events = dt.own_goals(3942382)  # Quarter-finals Netherlands 2:1 Turkey
+        events = events[(events['type'] == "Own Goal Against") | (events['type'] == "Own Goal For")]
+        self.assertEqual(["Own Goal For"], dt.types(events).tolist())
+        self.assertEqual(1, len(events))
+
+    def test_goals(self):
+        events = dt.goals(3942382)  # Quarter-finals Netherlands 2:1 Turkey
+        self.assertEqual(["Shot"], dt.types(events).tolist())
+        self.assertEqual(2, len(events))
+
+    def test_goals_with_own_goals(self):
+        events = dt.goals(3942382, True)  # Quarter-finals Netherlands 2:1 Turkey
+        self.assertEqual(3, len(events))
 
 
 if __name__ == '__main__':

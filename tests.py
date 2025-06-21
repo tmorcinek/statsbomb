@@ -3,9 +3,10 @@ import unittest
 import pandas as pd
 from matplotlib import pyplot as plt
 
+import src.events.data as dt
+import src.events.frames as fr
 import src.events.match as m
 import src.events.stats as st
-import src.events.frames as fr
 import src.lineups.lineups as ln
 import src.lineups.matches as ms
 import src.lineups.pitch as pt
@@ -354,6 +355,112 @@ class StatsTests(unittest.TestCase):
         }
 
         self.assertEqual(expected, st.team_stats_summary(events))
+
+
+class EventsDataTests(unittest.TestCase):
+    match_id = 3943043  # Final
+
+    def test_event_info_string(self):
+        events = dt.relevant_events(self.match_id)
+
+        event_info = dt.event_info_string(events.iloc[0])
+        self.assertEqual("Half:1 [00:00:00.340] England (England in possession #2)\nKobbie Mainoo performs Pass", event_info)
+
+        event_info = dt.event_info_string(events.iloc[1])
+        self.assertEqual("Half:1 [00:00:02.870] England (England in possession #2)\nJordan Pickford performs Ball Receipt*", event_info)
+
+        event_info = dt.event_info_string(events.iloc[2])
+        self.assertEqual("Half:1 [00:00:02.870] England (England in possession #2)\nJordan Pickford performs Carry", event_info)
+
+        event_info = dt.event_info_string(events.iloc[3])
+        self.assertEqual("Half:1 [00:00:04.742] England (England in possession #2)\nJordan Pickford performs Pass", event_info)
+
+        event_info = dt.event_info_string(events.iloc[4])
+        self.assertEqual("Half:1 [00:00:09.879] England (England in possession #2)\nBukayo Saka performs Ball Receipt*", event_info)
+
+        event_info = dt.event_info_string(events.iloc[-1])
+        self.assertEqual("Half:2 [00:48:49.145] England (Spain in possession #147)\nMarc Guehi performs Foul Won", event_info)
+
+    def test_unique_possessions(self):
+        events = dt.relevant_events(self.match_id)
+        self.assertEqual(145, dt.unique_possessions(events))
+
+    def test_unique_possessions_by_team(self):
+        events = dt.relevant_events(3943043)  # final
+        possessions_by_team = dt.unique_possessions_by_team(events)
+        self.assertEqual(70, possessions_by_team['England'])
+        self.assertEqual(75, possessions_by_team['Spain'])
+        self.assertEqual({'England': 70, 'Spain': 75}, possessions_by_team.to_dict())
+
+        events = dt.relevant_events(3938637)  # poland netherlands
+        possessions_by_team = dt.unique_possessions_by_team(events)
+        self.assertEqual(65, possessions_by_team['Poland'])
+        self.assertEqual(84, possessions_by_team['Netherlands'])
+        self.assertEqual({'Netherlands': 84, 'Poland': 65}, possessions_by_team.to_dict())
+
+    def test_players(self):
+        events = sb.events(3943043)  # final
+        players = dt.players(events)
+        expected_names = [
+            'Kobbie Mainoo', 'Jordan Pickford', 'Unai Simón Mendibil',
+            'Robin Aime Robert Le Normand', 'Daniel Carvajal Ramos',
+            'Álvaro Borja Morata Martín', 'Daniel Olmo Carvajal',
+            'Jude Bellingham', 'Rodrigo Hernández Cascante', 'Aymeric Laporte',
+            'Luke Shaw', 'Declan Rice', 'Marc Guehi', 'Phil Foden',
+            'Kyle Walker', 'Lamine Yamal Nasraoui Ebana',
+            'Marc Cucurella Saseta', 'Nicholas Williams Arthuer', 'Harry Kane',
+            'Bukayo Saka', 'Fabián Ruiz Peña', 'John Stones',
+            'Martín Zubimendi Ibáñez', 'Cole Palmer', 'Mikel Oyarzabal Ugarte',
+            'José Ignacio Fernández Iglesias', 'Ollie Watkins', 'Ivan Toney',
+            'Mikel Merino Zazón'
+        ]
+        self.assertEqual(expected_names, players.tolist())
+
+    def test_types(self):
+        events = sb.events(3943043)  # final
+        types = dt.types(events)
+        event_types = [
+            'Starting XI', 'Half Start', 'Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Miscontrol', 'Block', 'Dispossessed',
+            'Duel', 'Dribble', 'Ball Recovery', 'Clearance', 'Interception', 'Dribbled Past', 'Foul Committed', 'Foul Won',
+            'Shot', 'Goal Keeper', 'Injury Stoppage', 'Referee Ball-Drop', '50/50', 'Half End', 'Substitution', 'Shield',
+            'Tactical Shift', 'Error'
+        ]
+        self.assertEqual(event_types, types.tolist())
+
+    def test_relevant_types(self):
+        events = sb.events(3943043)  # final
+        events = dt.filter_relevant_events(events)
+        types = dt.types(events)
+        event_types = [
+            'Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Miscontrol', 'Block', 'Dispossessed',
+            'Duel', 'Dribble', 'Ball Recovery', 'Clearance', 'Interception', 'Dribbled Past', 'Foul Committed', 'Foul Won',
+            'Shot', 'Goal Keeper', '50/50', 'Shield', 'Error'
+        ]
+        self.assertEqual(event_types, types.tolist())
+
+    def test_pass_outcome(self):
+        events = sb.events(3943043)  # final
+        types = dt.pass_outcome.unique()
+        event_types = [
+            'Starting XI', 'Half Start', 'Pass', 'Ball Receipt*', 'Carry', 'Pressure', 'Miscontrol', 'Block', 'Dispossessed',
+            'Duel', 'Dribble', 'Ball Recovery', 'Clearance', 'Interception', 'Dribbled Past', 'Foul Committed', 'Foul Won',
+            'Shot', 'Goal Keeper', 'Injury Stoppage', 'Referee Ball-Drop', '50/50', 'Half End', 'Substitution', 'Shield',
+            'Tactical Shift', 'Error'
+        ]
+        self.assertEqual(event_types, types.tolist())
+
+    def test_passes(self):
+        events = sb.events(3943043)  # final
+        events = events.passes()
+        self.assertEqual(['Pass'], dt.types(events).tolist())
+        self.assertEqual(917, len(events))
+
+    def test_shots(self):
+        events = sb.events(3943043)  # final
+        events = events.shots()
+        self.assertEqual(['Shot'], dt.types(events).tolist())
+        self.assertEqual(25, len(events))
+
 
 if __name__ == '__main__':
     unittest.main()

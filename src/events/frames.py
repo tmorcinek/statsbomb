@@ -45,3 +45,11 @@ def plot_frame_group(frame_group: pd.DataFrame, pitch=None, ax=None, title=None)
     edge_colors = frame_group.apply(edge_color, axis=1)
     locations = frame_group['location'].apply(pd.Series)
     pitch.scatter(locations[0], locations[1], ax=ax, color=color, s=100, edgecolors=edge_colors)
+
+
+def draw_pass(pitch, ax, row: pd.Series, color: str = 'blue') -> None:
+    # assert pd.isna(row.get('location')) or pd.isna(row.get('pass_end_location'))
+
+    x, y = row['location']
+    end_x, end_y = row['pass_end_location']
+    pitch.arrows(x, y, end_x, end_y, width=1.5, headwidth=5, ax=ax, color=color)

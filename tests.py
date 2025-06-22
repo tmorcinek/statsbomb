@@ -360,6 +360,11 @@ class StatsTests(unittest.TestCase):
 class EventsDataTests(unittest.TestCase):
     match_id = 3943043  # Final
 
+    def setUp(self):
+        pd.set_option('display.width', 1000)
+        pd.set_option('display.max_rows', None)
+        pd.set_option('display.max_columns', None)
+
     def test_event_info_string(self):
         events = dt.relevant_events(self.match_id)
 
@@ -451,10 +456,15 @@ class EventsDataTests(unittest.TestCase):
         self.assertEqual(25, len(events))
 
     def test_own_goals(self):
-        events = dt.own_goals(3942382)  # Quarter-finals Netherlands 2:1 Turkey
-        events = events[(events['type'] == "Own Goal Against") | (events['type'] == "Own Goal For")]
-        self.assertEqual(["Own Goal For"], dt.types(events).tolist())
-        self.assertEqual(1, len(events))
+        own_goals = dt.own_goals(3942382)  # Quarter-finals Netherlands 2:1 Turkey
+        self.assertEqual(["Own Goal For"], dt.types(own_goals).tolist())
+        self.assertEqual(1, len(own_goals))
+
+    def test_own_goals_from_events(self):
+        events = sb.events(3942382)     # Quarter-finals Netherlands 2:1 Turkey
+        own_goals = dt.own_goals_from_events(events)
+        self.assertEqual(["Own Goal For"], dt.types(own_goals).tolist())
+        self.assertEqual(1, len(own_goals))
 
     def test_goals(self):
         events = dt.goals(3942382)  # Quarter-finals Netherlands 2:1 Turkey
@@ -463,6 +473,7 @@ class EventsDataTests(unittest.TestCase):
 
     def test_goals_with_own_goals(self):
         events = dt.goals(3942382, True)  # Quarter-finals Netherlands 2:1 Turkey
+        print(events)
         self.assertEqual(3, len(events))
 
 

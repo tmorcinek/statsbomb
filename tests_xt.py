@@ -4,6 +4,8 @@ import pandas as pd
 
 import src.events.data as dt
 import src.xT.expected_threat as xt
+import src.events.match as m
+from statsbombpy import sb
 
 
 class ExpectedThreatTests(unittest.TestCase):
@@ -60,9 +62,31 @@ class ExpectedThreatTests(unittest.TestCase):
         self.assertEqual(1350, len(all_shots))
 
     def test_get_competition_passes(self):
-        all_passes = xt.get_competition_passes()
+        df = xt.get_competition_passes()
+        self.assertEqual(53890, len(df))
 
-        self.assertEqual(53890, len(all_passes))
+    def test_get_competition_carries(self):
+        df = xt.get_competition_carries()
+        self.assertEqual(44139, len(df))
+
+    def test_transition_carry(self):
+        df = sb.events(3943043, filters= {"type": "Carry"})
+        carry = df.iloc[0]
+        print(carry)
+        transition = xt.transition(carry)
+        self.assertEqual(((3,5), (3,4)), transition)
+
+    def test_plot_carries(self):
+        df = sb.events(3943043, filters= {"type": "Carry"})
+        carry_id = "9c107df3-a3c8-4ad5-bc35-00214087a105"
+        df = df[df['id'] == carry_id]
+        m.plot_carries(df)
+        self.assertTrue(True)
+
+    def test_plot_xt_zones(self):
+        xt.plot_xt_zones_2()
+        self.assertTrue(True)
+
 
 
 if __name__ == '__main__':

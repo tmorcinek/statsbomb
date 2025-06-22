@@ -20,8 +20,7 @@ def goals(match_id, own_goal_included=False) -> pd.DataFrame:
         (events['period'] != 5)
         ]
     if own_goal_included:
-        own_goals_df = events[events['type'] == "Own Goal For"]
-        goals_df = pd.concat([goals_df, own_goals_df], ignore_index=True)
+        goals_df = goals_df + events[events['type'] == "Own Goal For"]
 
     return goals_df.dropna(axis=1, how='all')
 

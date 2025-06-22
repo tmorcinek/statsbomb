@@ -139,3 +139,17 @@ def plot_passes(df, title="Pass Map"):
     ax.legend(by_label.values(), by_label.keys(), loc='upper left')
 
     plt.show()
+
+
+def plot_carries(df, title="Carries Map"):
+    pitch = Pitch(pitch_type='statsbomb', pitch_color='white', line_color='black')
+    fig, ax = pitch.draw(figsize=(12, 8))
+
+    for _, row in df.iterrows():
+        x, y = row['location']
+        end_x, end_y = row['carry_end_location']
+
+        pitch.arrows(x, y, end_x, end_y, width=1.5, headwidth=4, color='black', ax=ax)
+
+    ax.set_title(title, fontsize=16)
+    plt.show()
